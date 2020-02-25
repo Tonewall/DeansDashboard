@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import "./Data.css";
 import { MDBDataTable } from 'mdbreact';
-import { incident_datatable_feeds} from "./CommonLibrary.js"
 import { Link } from 'react-router-dom';
 
 class Data extends Component {
@@ -18,19 +17,40 @@ class Data extends Component {
 
     
     populateData = function (data) {
-        /* Need to preprocess query result before */
-        var datatable_feeds = incident_datatable_feeds(data)
-        for(var i = 0; i < datatable_feeds['rows'].length; i++) {
-            var incidentNumber = datatable_feeds['rows'][i]['Incident Number']
+        var rows = [];
+        var columns = [
+            {value: 'Case#', field:'Incident Number', label: 'Incident Number', width: 100},
+            {value: 'Report Date', field:'Report Date', label: 'Report Date', width: 100},
+            {value: 'Approved Date', field:'Approved Date', label: 'Approved Date', width: 100},
+            {value: 'Status', field:'Case Status', label: 'Status', width: 50},
+            {value: 'Description', field:'Description', label: 'Description', width: 200},
+            {value: 'Location', field:'Street', label: 'Location', width: 250},
+            {value: 'Location Landmark', field:'Location Name', label: 'Landmark', width: 200},
+        ]
+
+        //for every incident, populate a blank row with the column data
+        for(var i = 0; i < data.length; i++) {
+            var row = {}
+            var incidentNumber = data[i]['Incident Number']
             var link = "./full-report/"+incidentNumber
-            datatable_feeds['rows'][i]['Incident Number'] = <Link to={link}>{incidentNumber}</Link>
+            row['Incident Number'] = <Link to={link}>{incidentNumber}</Link>
+            
+            for(var j = 1; j < columns.length; j++) {
+                if(data[i][columns[j].field] == null){ 
+                    row[columns[j].field] = '-'
+                } else {
+                    row[columns[j].field] = data[i][columns[j].field].toString()
+                }
+            }
+            rows.push(row)
         }
+
         this.setState({
             no_history: false,
             wrong_query: false,
             crimeData: {
-                columns: datatable_feeds['columns'],
-                rows: datatable_feeds['rows']
+                columns: columns,
+                rows: rows
             }
         })
     }
@@ -42,6 +62,33 @@ class Data extends Component {
 
     getData() {
         fetch('/showall')
+            .then(results => {
+                results.json().then(data => {
+                this.populateData(data)
+            })})
+            .catch(err => console.error(err))
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.filterState !== prevProps.filterState) {
+            this.filterData(this.props.filterState)
+          }
+        
+    }
+    filterData(filterState) {
+        fetch('/filter',
+                {
+                    headers:{'Content-Type' : 'application/json'},
+                    method: 'post',
+                    body: JSON.stringify(filterState)
+                }
+            )
+            .then(function(response) {
+                if(!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response
+            })
             .then(results => {
                 results.json().then(data => {
                 this.populateData(data)
