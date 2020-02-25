@@ -22,7 +22,6 @@ class gtpdFilter extends Component {
         })
     }
     incidentNumberHandler = (incidentNumber) => {
-        console.log(incidentNumber)
         this.setState({incidentNumber: incidentNumber})
     }
 
