@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-class date extends Component {
+class IncidentNumber extends Component {
     state = {
         incidentNumber: null,
     };
@@ -28,5 +28,5 @@ class date extends Component {
         )
     }
 }
-export default date;
+export default IncidentNumber;
 

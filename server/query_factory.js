@@ -100,14 +100,6 @@ module.exports.get_offense_description = function(incident_number) {
     ', incident_number)
 }
 
-module.exports.get_narrative_APD = function(incident_number) {
-    return sprintf('\
-        SELECT *\n\
-        FROM [CrimeAnalytics].[dbo].[APD Narratives]\n\
-        WHERE ([offense_id]=\'%s\')\n\
-    ', incident_number)
-}
-
 module.exports.get_narrative_GTPD = function(incident_number) {
     return sprintf('\
         SELECT [Narrative]\n\
@@ -208,24 +200,16 @@ module.exports.get_property = function(incident_number) {
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }
-
-module.exports.crimeTypes = 
-"SELECT DISTINCT [NIBRS_Code],[Description],[NIBRS_Category],[NIBRS_Code_Extended] FROM [CrimeAnalytics].[dbo].[Codes-Offense]"
-module.exports.crimeCategories = 
-"SELECT DISTINCT [NIBRS_Category], [CrimeAnalytics].[dbo].[aggregate_by_comma]( [NIBRS_Category] ) AS [Aggregated_NIBRS_Code_Extended]\
-    FROM [CrimeAnalytics].[dbo].[Codes-Offense]"
  
-
-
-
 /* Queries for filters */
 module.exports.filter = function(criteria) {
 
     criteria_script = ''
 
     /* Date Filter */
-    criteria_script = (criteria_script.length == 0 ? '' : criteria_script + ' AND ') 
-            + '(' + '[Report Date] >= \'' + criteria.startDate + '\' AND [Report Date] <= \'' + criteria.endDate + '\')'
-
+    criteria_script = '([Report Date] >= \'' + criteria.startDate + '\' AND [Report Date] <= \'' + criteria.endDate + '\')'
+    if(criteria.incidentNumber){
+        criteria_script += 'AND [OCA Number] = \'' + criteria.incidentNumber + '\''
+    }
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
