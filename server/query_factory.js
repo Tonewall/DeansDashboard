@@ -2,13 +2,7 @@ const sprintf = require('sprintf-js').sprintf;
 
 // TODO: add more methods for common query generation
 
-module.exports.showall = function(additional_join_statement=null, criteria=null) {
-    /* Supports caller defined additional joins and conditionals
-        - default join: [Codes-Offense], [tblIncidentOffender]-->TODO: This only accounts for offenders in GTPD RMS
-        - format
-            - additional join statement: LEFT JOIN [~~] on ()
-            - criteria: ( len([OCA Number]) = 8 )
-     */
+module.exports.showall = function(criteria=null) {
     return sprintf('\
         SELECT distinct [OCA Number] as [Incident Number]\n') +
         '\
@@ -20,9 +14,9 @@ module.exports.showall = function(additional_join_statement=null, criteria=null)
             LEFT JOIN [CrimeAnalytics].[dbo].[Codes-Offense]\
                 ON ([Incident Offenses-GTPD+APD].[Offense] = [Codes-Offense].[NIBRS_Code_Extended])\n\
             LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\
-                ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\n'+
-            (additional_join_statement==null ? '' : additional_join_statement) + '\n'+
-        (criteria==null ? '' : ('WHERE ' + criteria + '\n'))+
+                ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\
+                Where LEN([OCA Number]) = 8 \n' +
+        (criteria==null ? '' : ('AND ' + criteria + '\n'))+
         'ORDER BY [Report Date] DESC';
 }
 
@@ -228,18 +222,10 @@ module.exports.crimeCategories =
 module.exports.filter = function(criteria) {
 
     criteria_script = ''
-    additional_join_statement = ''
 
-    codes_address_unique_join = false
     /* Date Filter */
     criteria_script = (criteria_script.length == 0 ? '' : criteria_script + ' AND ') 
             + '(' + '[Report Date] >= \'' + criteria.startDate + '\' AND [Report Date] <= \'' + criteria.endDate + '\')'
 
-    if(codes_address_unique_join)
-        additional_join_statement += 
-            'LEFT JOIN [CrimeAnalytics].[dbo].[Codes_Addresses_Unique] ON (CAST([Codes_Addresses_Unique].[St #] as nvarchar(255)) = [Incident Offenses-GTPD+APD].[St Num]\
-                AND [Codes_Addresses_Unique].[Street Name] = [Incident Offenses-GTPD+APD].[Street Name]) '
-
-    return this.showall(additional_join_statement = additional_join_statement.length==0 ? null : additional_join_statement, 
-                        criteria = criteria_script.length==0 ? null : criteria_script)
+    return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
