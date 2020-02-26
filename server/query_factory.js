@@ -212,7 +212,7 @@ module.exports.filter = function(criteria) {
     /* Date Filter */
     criteria_script = '([ReportDate] >= \'' + criteria.startDate + '\' AND [ReportDate] <= \'' + criteria.endDate + '\')'
     if(criteria.incidentNumber){
-        criteria_script += 'AND [IncidentNumber] = \'' + criteria.incidentNumber + '\''
+        criteria_script += 'AND [tblIncident].[IncidentNumber] = \'' + criteria.incidentNumber + '\''
     }
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
