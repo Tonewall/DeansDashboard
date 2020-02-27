@@ -1,0 +1,55 @@
+.mainFullReport {
+    width: 90%;
+    margin: auto;
+}
+.fullReportCard {
+    min-height: 80vh;
+    margin-top: 30px;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+.errorMessage {
+    font-size: 30px;
+    text-align: center;
+}
+.card-header {
+    text-align: center;
+}
+
+.topReport {
+    margin:auto;
+    margin-bottom: 20px;
+}
+.caseDisp {
+    margin-left: 10px;
+}
+
+.whenCard, .whereCard, .offenseCard, .narrativeCard {
+    margin-top: 10px;
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.whenTitle, .whereTitle, .whatTitle, .narrativeTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+.loading {
+    margin: auto;
+    font-size: 30px;
+}
+.offenseDescriptionElement {
+    background: rgb(255, 255, 255);
+    height: 100%;
+}
+
+.offenseDescriptionElementCard {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    
+}
+.offenseDescCard, .supplementCard, .propertyCard, .offenderCard, .arrestCard {
+    margin-top: 10px;
+    width: 100%;
+}

@@ -33,7 +33,7 @@ class Data extends Component {
             var row = {}
             var incidentNumber = data[i]['Incident Number']
             var link = "./full-report/"+incidentNumber
-            row['Incident Number'] = <Link to={link}>{incidentNumber}</Link>
+            row['Incident Number'] = <Link to={link} target="_blank">{incidentNumber}</Link>
             
             for(var j = 1; j < columns.length; j++) {
                 if(data[i][columns[j].field] == null){ 
