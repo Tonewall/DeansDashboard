@@ -17,11 +17,12 @@ class Data extends Component {
 
     
     populateData = function (data) {
+        console.log(data)
         var rows = [];
         var columns = [
             {value: 'Case#', field:'Incident Number', label: 'Incident Number', width: 100},
             {value: 'Report Date', field:'Report Date', label: 'Report Date', width: 100},
-            {value: 'Approved Date', field:'Approved Date', label: 'Approved Date', width: 100},
+            {value: 'Approved Date', field:'DateApproved', label: 'Approved Date', width: 100},
             {value: 'Status', field:'Case Status', label: 'Status', width: 50},
             {value: 'Description', field:'Description', label: 'Description', width: 200},
             {value: 'Location', field:'Street', label: 'Location', width: 250},
@@ -36,7 +37,7 @@ class Data extends Component {
             row['Incident Number'] = <Link to={link} target="_blank">{incidentNumber}</Link>
             
             for(var j = 1; j < columns.length; j++) {
-                if(data[i][columns[j].field] == null){ 
+                if(data[i][columns[j].field] == null || data[i][columns[j].field] === " "){ 
                     row[columns[j].field] = '-'
                 } else {
                     row[columns[j].field] = data[i][columns[j].field].toString()

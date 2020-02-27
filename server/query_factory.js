@@ -4,21 +4,24 @@ const sprintf = require('sprintf-js').sprintf;
 
 module.exports.showall = function(criteria=null) {
     return sprintf('\
-        SELECT distinct [OCA Number] as [Incident Number]\n') +
+        SELECT distinct [tblIncident].[IncidentNumber] as [Incident Number]\n') +
         '\
-            , CONVERT(varchar, [Report Date], 23) as [Report Date]\
-            , [Description]\
-            , CONCAT([St Num], \' \', [Incident Offenses-GTPD+APD].[Street]) as [Street]\
-            , [Location Landmark] as [Location Name]\
-        FROM [CrimeAnalytics].[dbo].[Incident Offenses-GTPD+APD]\
-            LEFT JOIN [CrimeAnalytics].[dbo].[Codes-Offense]\
-                ON ([Incident Offenses-GTPD+APD].[Offense] = [Codes-Offense].[NIBRS_Code_Extended])\n\
-            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\
-                ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\
-                Where LEN([OCA Number]) = 8 \n' +
+            , CONVERT(varchar, [ReportDate], 23) as [Report Date]\
+            , CONCAT([LocationStreetNumber], \' \', [LocationStreet]) as [Street]\
+            , [LocationLandmark] as [Location Name]\
+            , [CaseStatus] as [Case Status]\
+            , [OffenseDescription] as [Description]\
+            , CONVERT(varchar, [DateApproved], 23) as [DateApproved]\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\
+            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\
+            ON ( [tblIncident].[IncidentNumber] = [tblIncidentOffense].[IncidentNumber] )\
+                Where LEN([tblIncident].[IncidentNumber]) = 8 \n' +
         (criteria==null ? '' : ('AND ' + criteria + '\n'))+
         'ORDER BY [Report Date] DESC';
 }
+// LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\
+// ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\
+//            , [Description]\
 
 
 
@@ -97,14 +100,6 @@ module.exports.get_offense_description = function(incident_number) {
         FROM [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\n\
         WHERE ([IncidentNumber]=\'%s\')\n\
         ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
-}
-
-module.exports.get_narrative_APD = function(incident_number) {
-    return sprintf('\
-        SELECT *\n\
-        FROM [CrimeAnalytics].[dbo].[APD Narratives]\n\
-        WHERE ([offense_id]=\'%s\')\n\
     ', incident_number)
 }
 
@@ -208,24 +203,16 @@ module.exports.get_property = function(incident_number) {
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }
-
-module.exports.crimeTypes = 
-"SELECT DISTINCT [NIBRS_Code],[Description],[NIBRS_Category],[NIBRS_Code_Extended] FROM [CrimeAnalytics].[dbo].[Codes-Offense]"
-module.exports.crimeCategories = 
-"SELECT DISTINCT [NIBRS_Category], [CrimeAnalytics].[dbo].[aggregate_by_comma]( [NIBRS_Category] ) AS [Aggregated_NIBRS_Code_Extended]\
-    FROM [CrimeAnalytics].[dbo].[Codes-Offense]"
  
-
-
-
 /* Queries for filters */
 module.exports.filter = function(criteria) {
 
     criteria_script = ''
 
     /* Date Filter */
-    criteria_script = (criteria_script.length == 0 ? '' : criteria_script + ' AND ') 
-            + '(' + '[Report Date] >= \'' + criteria.startDate + '\' AND [Report Date] <= \'' + criteria.endDate + '\')'
-
+    criteria_script = '([ReportDate] >= \'' + criteria.startDate + '\' AND [ReportDate] <= \'' + criteria.endDate + '\')'
+    if(criteria.incidentNumber){
+        criteria_script += 'AND [tblIncident].[IncidentNumber] = \'' + criteria.incidentNumber + '\''
+    }
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
