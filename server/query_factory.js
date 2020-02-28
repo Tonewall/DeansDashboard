@@ -78,6 +78,61 @@ module.exports.get_incident_basic = function(incident_number) {
     ', incident_number)
 }
 
+
+module.exports.get_incident_basic_other = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA Number]\
+            , [AssignedToUnit]\
+            , [ReportingOfficerName]\
+            , [Report Date]\
+            , [From Date]\
+            , [From Time]\
+            , [To Date]\
+            , [To Time]\
+            , [Avg Date]\
+            , [Avg Time]\
+            , [DTEdit]\
+            , [Shift]\
+            , [Video]\
+            , [VClear]\
+            , [LType]\
+            , [Location Code]\
+            , [Patrol Zone]\
+            , [Location Landmark]\
+            , [Address]\
+            , [Intersection]\
+            , [Apt-Rm-Ste]\
+            , [Alcohol]\
+            , [Drug]\
+            , [Weapon]\
+            , [Offense]\
+            , [NIBRSOffense]\
+            , [Premises]\
+            , [Offn From]\
+            , [UCR Changed]\
+            , [PType]\
+            , [UCInc+]\
+            , [CSR]\
+            , [Clery]\
+            , [Clery+]\
+            , [CSArr]\
+            , [8399]\
+            , [CSRef]\
+            , [CSDVS]\
+            , [GTtype]\
+            , [GTstatus]\
+            , [EMS]\
+            , [Injured]\
+            , [Suicide]\
+            , [1013]\
+            , [RO]\n\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncident] \
+        left join [SS_GARecords_Incident].[dbo].[tblIncidentDrug] on ([tblIncident].[IncidentNumber] = [tblIncidentDrug].[IncidentNumber])\
+        left join [SS_GARecords_Incident].[dbo].[tblIncidentAssignment] on ([tblIncident].[IncidentNumber] = [tblIncidentAssignment].[IncidentNumber])\n\
+        WHERE ([OCA Number]=\'%\s\')\
+    ', incident_number)
+}
+
 module.exports.get_MO = function(incident_number) {
     return sprintf('\
         SELECT [SequenceNumber]\

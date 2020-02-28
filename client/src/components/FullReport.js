@@ -19,7 +19,6 @@ class fullReport extends Component {
 
     componentDidMount() {
         var {incidentNumber} = this.props.match.params;
-        console.log(incidentNumber)
         this.populateReport(incidentNumber);
     }
 

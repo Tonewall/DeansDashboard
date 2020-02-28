@@ -285,8 +285,9 @@ function add_router(app) {
         query = query_factory.get_incident_basic(req.params.incident_number)
         db_query(query, (err, result) => {
             if (!err) {
-                if (result[0] != null)
+                if (result[0] != null) {
                     res.send(result[0]);
+                }
                 else
                     res.status(400).send('No data found');
             }
