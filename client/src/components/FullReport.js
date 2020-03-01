@@ -31,8 +31,35 @@ class fullReport extends Component {
                     })
                 })
                 .catch(err => console.error(err))
-            
-
+            if(incidentNumber.toString().length===9)
+            {
+                fetch('/narrative_APD/'+incidentNumber)
+                    .then(results => {
+                        if(!results.ok) {
+                            results.text().then(txt=>console.log(txt))
+                            this.setState({narrative: 'No narrative'})
+                            return
+                        }
+                        results.json().then(data => {
+                            var text = ""
+                            for(var i=1;;i++) {
+                                if(("Expr"+i) in data)
+                                {
+                                    if(data["Expr"+i] != null)
+                                        text = text + data["Expr"+i]
+                                    else
+                                        break;
+                                }
+                                else
+                                    break;
+                            }
+                            this.setState({narrative: text})
+                        })
+                    })
+                    .catch(err => console.error(err))
+            }
+            else
+            {
                 fetch('/narrative_GTPD/'+incidentNumber)
                     .then(results => {
                         if(!results.ok) {
@@ -45,6 +72,7 @@ class fullReport extends Component {
                         })
                     })
                     .catch(err => console.error(err))
+            }
             fetch('/supplements/'+incidentNumber)
                 .then(results => {
                     results.json().then(data => {
