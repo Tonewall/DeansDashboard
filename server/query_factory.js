@@ -9,10 +9,12 @@ module.exports.showall = function(criteria=null) {
             , CONVERT(varchar, [ReportDate], 23) as [Report Date]\
             , CONCAT([LocationStreetNumber], \' \', [LocationStreet]) as [Street]\
             , [LocationLandmark] as [Location Name]\
-            , [CaseStatus] as [Case Status]\
+            , [ARPIncidentNew].[CaseStatus] as [Case Status]\
             , [OffenseDescription] as [Description]\
             , CONVERT(varchar, [DateApproved], 23) as [DateApproved]\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\
+        FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\
+            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncident]\
+            ON ([ARPIncidentNew].[OCA] = [tblIncident].[IncidentNumber])\
             LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\
             ON ( [tblIncident].[IncidentNumber] = [tblIncidentOffense].[IncidentNumber] )\
                 Where LEN([tblIncident].[IncidentNumber]) = 8 \n' +
