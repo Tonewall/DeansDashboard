@@ -8,6 +8,7 @@ class Data extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             crimeData: {
                 coulumns: [],
                 rows: []
@@ -48,7 +49,8 @@ class Data extends Component {
             crimeData: {
                 columns: columns,
                 rows: rows
-            }
+            },
+            loading: false
         })
     }
     
@@ -65,6 +67,7 @@ class Data extends Component {
     }
 
     getData() {
+        this.setState({loading: true});
         if(this.props.filterState)
         {
             fetch('/filter',
@@ -120,6 +123,7 @@ class Data extends Component {
 
     render() {
         return (
+            !this.state.loading ?
             <div className="main">
                 <div className="card" style={{marginBottom:30, fontSize: 12}}>
                     <div className="card-body" >
@@ -134,6 +138,8 @@ class Data extends Component {
                     </div>
                 </div>
             </div>
+            :
+            <div className="col-12 fas fa-spinner fa-spin" style={{color: '#777',height:'70px', fontSize:'70px', textAlign:'center', marginTop:'100px'}}></div>
         );
     }
 }
