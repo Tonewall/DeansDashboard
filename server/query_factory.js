@@ -2,29 +2,42 @@ const sprintf = require('sprintf-js').sprintf;
 
 // TODO: add more methods for common query generation
 
-module.exports.showall = function(criteria=null) {
-    return sprintf('\
-        SELECT distinct [tblIncident].[IncidentNumber] as [Incident Number]\n') +
-        '\
-            , CONVERT(varchar, [ReportDate], 23) as [Report Date]\
-            , CONCAT([LocationStreetNumber], \' \', [LocationStreet]) as [Street]\
-            , [LocationLandmark] as [Location Name]\
-            , [ARPIncidentNew].[CaseStatus] as [Case Status]\
-            , [OffenseDescription] as [Description]\
-            , CONVERT(varchar, [DateApproved], 23) as [DateApproved]\
-        FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\
-            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncident]\
-            ON ([ARPIncidentNew].[OCA] = [tblIncident].[IncidentNumber])\
-            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\
-            ON ( [tblIncident].[IncidentNumber] = [tblIncidentOffense].[IncidentNumber] )\
-                Where LEN([tblIncident].[IncidentNumber]) = 8 \n' +
-        (criteria==null ? '' : ('AND ' + criteria + '\n'))+
-        'ORDER BY [Report Date] DESC';
+module.exports.showall = function(criteria=null, max_num_reports=-1) {
+    return 'SELECT distinct ' + ((max_num_reports==-1) ? '':sprintf('top (%d)', max_num_reports)) +
+            ' [ARPIncidentNew].[OCA] as [Case]\n\
+            , CONVERT(varchar, [ARPIncidentNew].[DateReported], 23) as [Report Date]\n\
+            , CONVERT(varchar, [ARPIncidentNew].[LastUpdatedDate], 23) as [Approved Date]\n\
+            , [tblLkpIBRCaseStatus].[Description] as [Status]\n\
+            , [ARPOffense].[OffenseDescription] as [Description]\n\
+            , [ARPIncidentNew].[Location] as [Location]\n\
+        FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\n\
+            LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRCaseStatus]\n\
+            ON ([ARPIncidentNew].[CaseStatus] = [tblLkpIBRCaseStatus].[Code])\n\
+            LEFT JOIN [SS_GARecords_Incident].[dbo].[ARPOffense]\n\
+            ON ( [ARPIncidentNew].[OCA] = [ARPOffense].[OCANumber] )\n' +
+        (criteria==null ? '' : ('WHERE ' + criteria + '\n'))+
+        'ORDER BY [Case] DESC';
 }
-// LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\
-// ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\
-//            , [Description]\
 
+/* Queries for filters */
+module.exports.filter = function(criteria) {
+
+    criteria_script = ''
+
+    /* Date Filter */
+    criteria_script = '([DateReported] >= \'' + criteria.startDate + '\' AND [DateReported] <= \'' + criteria.endDate + '\')'
+
+    return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
+}
+
+
+/* Queries for instant search for specific incident number*/
+module.exports.search = function(incident_number) {
+
+    criteria_script = '[ARPIncidentNew].[OCA] like \'%' + incident_number + '%\''
+
+    return this.showall(criteria = criteria_script)
+}
 
 
 module.exports.get_incident_basic = function(incident_number) {
@@ -259,17 +272,4 @@ module.exports.get_property = function(incident_number) {
         WHERE ([IncidentNumber]=\'%s\')\n\
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
-}
- 
-/* Queries for filters */
-module.exports.filter = function(criteria) {
-
-    criteria_script = ''
-
-    /* Date Filter */
-    criteria_script = '([ReportDate] >= \'' + criteria.startDate + '\' AND [ReportDate] <= \'' + criteria.endDate + '\')'
-    if(criteria.incidentNumber){
-        criteria_script += 'AND [tblIncident].[IncidentNumber] = \'' + criteria.incidentNumber + '\''
-    }
-    return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }

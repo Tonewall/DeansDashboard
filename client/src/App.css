@@ -39,6 +39,10 @@
   }
 }
 
+thead{
+  word-break: break-all;
+}
+
 tbody{
   word-break: break-all;
 }

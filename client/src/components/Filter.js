@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import './GtpdFilter.css';
+import './Filter.css';
 import Select from "react-select";
 import Date from "./FilterComponents/Date"
-import IncidentNumber from "./FilterComponents/IncidentNumber"
 
 
 const reportTypeOptions = [
@@ -12,17 +11,16 @@ const reportTypeOptions = [
     {value: 'Juvenile', label: 'Juvenile'},
 ];
 
-class gtpdFilter extends Component {
+class Filter extends Component {
     constructor(props) {
         super(props)
         this.state = {
             startDate: null,
             endDate: null,
-            incidentNumber: null,
             selectedReportType:{value: 'Normal', label: 'Normal'},
         };
         this.dateHandler = this.dateHandler.bind(this)
-        this.incidentNumberHandler = this.incidentNumberHandler.bind(this)
+        this.setReportType = this.setReportType.bind(this)
     }
 
     dateHandler = (date) => {
@@ -31,15 +29,11 @@ class gtpdFilter extends Component {
             startDate: date.startDate
         })
     }
-    incidentNumberHandler = (incidentNumber) => {
-        this.setState({incidentNumber: incidentNumber.incidentNumber})
-    }
     setReportType = selectedReportType => {
         this.setState({selectedReportType});
     }
 
     handleSubmit = () => {
-        console.log(this.state)
         this.props.submitHandler(this.state)
     }
 
@@ -52,15 +46,14 @@ class gtpdFilter extends Component {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-12">
-                                <IncidentNumber incidentNumberHandler={this.incidentNumberHandler}/>
                                 <label>
                                     Report Type
                                 </label>
                                 <Select 
-                                value={selectedReportType} 
-                                onChange={this.setReportType} 
-                                options={reportTypeOptions} 
-                                placeholder={"Custom"}
+                                    value={selectedReportType} 
+                                    onChange={this.setReportType} 
+                                    options={reportTypeOptions} 
+                                    placeholder={"Custom"}
                                 />
                                 <Date dateHandler={this.dateHandler}/>
                             </div>
@@ -78,4 +71,4 @@ class gtpdFilter extends Component {
         );
     }
 }
-export default gtpdFilter;
+export default Filter;

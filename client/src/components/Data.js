@@ -17,24 +17,22 @@ class Data extends Component {
 
     
     populateData = function (data) {
-        console.log(data)
         var rows = [];
         var columns = [
-            {value: 'Case#', field:'Incident Number', label: 'Incident Number', width: 100},
-            {value: 'Report Date', field:'Report Date', label: 'Report Date', width: 100},
-            {value: 'Approved Date', field:'DateApproved', label: 'Approved Date', width: 100},
-            {value: 'Status', field:'Case Status', label: 'Status', width: 50},
-            {value: 'Description', field:'Description', label: 'Description', width: 200},
-            {value: 'Location', field:'Street', label: 'Location', width: 250},
-            {value: 'Location Landmark', field:'Location Name', label: 'Landmark', width: 200},
+            {value: 'Case', field:'Case', label: 'Case', width: 80},
+            {value: 'Report Date', field:'Report Date', label: 'Report Date', width: 120},
+            {value: 'Approved Date', field:'Approved Date', label: 'Approved Date', width: 120},
+            {value: 'Status', field:'Status', label: 'Status', width: 180},
+            {value: 'Description', field:'Description', label: 'Description', width: 240},
+            {value: 'Location', field:'Location', label: 'Location',  width: 300}
         ]
 
         //for every incident, populate a blank row with the column data
         for(var i = 0; i < data.length; i++) {
             var row = {}
-            var incidentNumber = data[i]['Incident Number']
+            var incidentNumber = data[i]['Case']
             var link = "./full-report/"+incidentNumber
-            row['Incident Number'] = <Link to={link} target="_blank">{incidentNumber}</Link>
+            row['Case'] = <Link to={link} target="_blank">{incidentNumber}</Link>
             
             for(var j = 1; j < columns.length; j++) {
                 if(data[i][columns[j].field] == null || data[i][columns[j].field] === " "){ 
@@ -47,8 +45,6 @@ class Data extends Component {
         }
 
         this.setState({
-            no_history: false,
-            wrong_query: false,
             crimeData: {
                 columns: columns,
                 rows: rows
@@ -61,27 +57,21 @@ class Data extends Component {
         this.getData();
     }
 
-    getData() {
-        fetch('/showall')
-            .then(results => {
-                results.json().then(data => {
-                this.populateData(data)
-            })})
-            .catch(err => console.error(err))
+    componentDidUpdate(prevProps) {
+        if (this.props.filterState !== prevProps.filterState ||
+                this.props.instantSearchState !== prevProps.instantSearchState) {
+            this.getData()
+        }
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.filterState !== prevProps.filterState) {
-            this.filterData(this.props.filterState)
-          }
-        
-    }
-    filterData(filterState) {
-        fetch('/filter',
+    getData() {
+        if(this.props.filterState)
+        {
+            fetch('/filter',
                 {
                     headers:{'Content-Type' : 'application/json'},
                     method: 'post',
-                    body: JSON.stringify(filterState)
+                    body: JSON.stringify(this.props.filterState)
                 }
             )
             .then(function(response) {
@@ -95,6 +85,37 @@ class Data extends Component {
                 this.populateData(data)
             })})
             .catch(err => console.error(err))
+        }
+        else if(this.props.instantSearchState)
+        {
+            fetch('/search/'+this.props.instantSearchState.incidentNumber)
+            .then(function(response) {
+                if(!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response
+            })
+            .then(results => {
+                results.json().then(data => {
+                this.populateData(data)
+            })})
+            .catch(err => console.error(err))
+        }
+        else
+        {
+            fetch('/showall')
+            .then(function(response) {
+                if(!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response
+            })
+            .then(results => {
+                results.json().then(data => {
+                this.populateData(data)
+            })})
+            .catch(err => console.error(err))
+        }
     }
 
     render() {

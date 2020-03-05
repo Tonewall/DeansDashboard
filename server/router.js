@@ -3,7 +3,6 @@ const sql = require("mssql");
 var config = require('./db_config')
 const read = require('read')
 const { exec } = require('child_process')
-const sprintf = require('sprintf-js').sprintf;
 
 
 // Contains methods for generating common query.
@@ -54,108 +53,22 @@ function add_router(app) {
         });
     });
 
-    /* Direct querying for debugging purpose */
-    app.post('/direct-query', function (req, res) {
-        console.log(req.body['query'])
-        db_query(req.body['query'], (err, result) => {
-            if (!err) res.send(JSON.stringify(result));
-            else res.status(400).send([err]);
-        });
-    });
-
-    /* Gets location data */
-    app.get('/locations', function (req, res) {
-        db_query(query_factory.locations, (err, result) => {
-            if (!err) res.send(result);
-            else res.status(400).send(err);
-        });
-    });
-
     app.post('/filter', function (req, res) {
         queryString = query_factory.filter(req.body)
 
         db_query(queryString, (err, result) => {
             if (!err) res.send(result);
-            else {
-                console.log(err)
-                res.status(400).send(err);
-            }
-        });
-    });
-
-    app.get('/crimeTypes', function (req, res) {
-        db_query(query_factory.crimeTypes, (err, result) => {
-            if (!err) res.send(result);
-            else res.status(400).send(err);
-        });
-    });
-    app.get('/crimeCategories', function (req, res) {
-        db_query(query_factory.crimeCategories, (err, result) => {
-            if (!err) res.send(result);
-            else 
-            {
-                console.log(err)
-                res.status(400).send(err);
-            }
-        });
-    });
-    app.post('/getBothCount', function (req, res) {
-        query = query_factory.getBothCount(req.body)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result[0] != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-    app.post('/getTimeCount', function (req, res) {
-        query = query_factory.getTimeCount(req.body)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result[0] != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-    app.get('/getYears', function (req, res) {
-        db_query(query_factory.getYears, (err, result) => {
-            if (!err) res.send(result);
             else res.status(400).send(err);
         });
     });
 
-    app.post('/getLocationRanking', function (req, res) {
-        query = query_factory.getLocationRanking(req.body)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result[0] != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-    app.get('/getBuildings', function (req, res) {
-        db_query(query_factory.getBuildings, (err, result) => {
+    app.get('/search/:incident_number', function(req, res) {
+        queryString = query_factory.search(req.params.incident_number);
+        db_query(queryString, (err, result) => {
             if (!err) res.send(result);
             else res.status(400).send(err);
         });
     });
-
-    app.get('/getOfficers', function (req, res) {
-        db_query(query_factory.getOfficers, (err, result) => {
-            if (!err) res.send(result);
-            else res.status(400).send(err);
-        });
-    });
-
     
     /*
         Integrates basic_info with offense_desc, narratives, offender_info, arrest_info, property_info
