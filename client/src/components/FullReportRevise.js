@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import './FullReport.css';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Incident from './FullReportComponents/Incident'
 import IncidentLocation from './FullReportComponents/IncidentLocation'
 import { Carousel } from 'react-responsive-carousel';

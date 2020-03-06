@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { MDBDataTable } from 'mdbreact';
+// import { MDBDataTable } from 'mdbreact';
 
 
 class Incident extends Component {
@@ -12,19 +12,19 @@ class Incident extends Component {
 
     componentDidMount(){
         this.setState({incidentNumber: this.props.incidentNumber})
-        this.getIncidentData()
+        // this.getIncidentData()
     }
 
-    getIncidentData() {
-        var incidentColumns= [
-            {value: 'Incident Type', field:'Incident Type', label: 'Incident Type', width: 700},
-            {value: 'Count', field:'Count', label: 'Count', width: 60},
-            {value: 'Incident Code', field:'Incident Code', label: 'Incident Code', width: 200},
-        ]
-        var incidentRows = []
+    // getIncidentData() {
+    //     var incidentColumns= [
+    //         {value: 'Incident Type', field:'Incident Type', label: 'Incident Type', width: 700},
+    //         {value: 'Count', field:'Count', label: 'Count', width: 60},
+    //         {value: 'Incident Code', field:'Incident Code', label: 'Incident Code', width: 200},
+    //     ]
+    //     var incidentRows = []
 
-        this.setState({incidentData: {columns: incidentColumns, rows: incidentRows}})
-    }
+    //     this.setState({incidentData: {columns: incidentColumns, rows: incidentRows}})
+    // }
 
     getIncidentType() {
         if(true){

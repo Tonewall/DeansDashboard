@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { MDBDataTable } from 'mdbreact';
 
 
 class IncidentLocation extends Component {
