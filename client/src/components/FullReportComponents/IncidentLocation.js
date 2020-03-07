@@ -9,27 +9,51 @@ class IncidentLocation extends Component {
     };
 
     componentDidMount(){
-        this.setState({incidentNumber: this.props.incidentNumber})
+        this.setState({incidentNumber: this.props.incidentNumber},
+            function() {
+                this.getIncidentLocation();
+            })
+    }
+    getIncidentLocation() {
+        fetch('/getIncidentBasic/'+this.state.incidentNumber)
+                .then(results => {
+                    results.json().then(data => {
+                        this.setState({location: data})
+                    })
+                })
+                .catch(err => console.error(err))
     }
 
     getLocation() {
-        if(true){
+        if(this.state.location){
             return(
                 <div>
-                    <input readOnly value={" Student Health Center - 740 Ferst Drive NW"} style={{ width: "100%" }}/>
+                    <input readOnly value={" " + this.state.location[0].Location} style={{ width: "100%" }}/>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <input readOnly value={""} style={{ width: "100%" }}/>
                 </div>
             )
         }
         
     }
     getLocationCode() {
-        if(true){
+        if(this.state.location){
             return(
                 <div>
-                    <input readOnly value={" ONCAM"} style={{ width: "100%" }}/>
+                    <input readOnly value={" " + this.state.location[0].LocationCode} style={{ width: "100%" }}/>
                 </div>
             )
-        }  
+        } else {
+            return (
+                <div>
+                    <input readOnly value={""} style={{ width: "100%" }}/>
+                </div>
+            )
+        } 
     }
     render() {
         return(

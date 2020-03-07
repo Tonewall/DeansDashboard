@@ -271,3 +271,51 @@ module.exports.filter = function(criteria) {
     }
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
+
+module.exports.getIncidentData = function(incident_number) {
+    return sprintf('\
+        SELECT [SequenceNumber]\
+        ,[SupplementNumber]\
+        ,[OffenseCode]\
+        ,[AttemptComplete]\
+        ,[OffenseDescription]\
+        ,[Counts]\
+        ,[OffenseType]\
+        ,[Statute]\
+        ,[OCANumber]\
+        ,[Degree]\
+        FROM [SS_GARecords_Incident].[dbo].[ARPOffense]\
+        WHERE ([OCANumber]=\'%s\')\n\
+        ORDER BY [SequenceNumber] ASC\
+    ', incident_number)
+}
+module.exports.getIncidentBasic = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[LastUpdatedDate]\
+        ,[DateReported]\
+        ,[TimeReported]\
+        ,[IncidentToDate]\
+        ,[IncidentToTime]\
+        ,[IncidentFromDate]\
+        ,[IncidentFromTime]\
+        ,[CaseStatus]\
+        ,[CaseDisposition]\
+        ,[ReportingOfficerName]\
+        ,[ReportingOfficerID]\
+        ,[ClearanceDate]\
+        ,[ClearingOfficerID]\
+        ,[ClearingOfficerName]\
+        ,[LocationCode]\
+        ,[Location]\
+        ,[IncidentType]\
+        ,[CaseManagementStatus]\
+        ,[Narrative]\
+        ,[GCIC]\
+        ,[DrugRelated]\
+        ,[Juvenile]\
+        ,[ApprovingOfficerID]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}

@@ -1,63 +1,73 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-// import { MDBDataTable } from 'mdbreact';
 
 
 class Incident extends Component {
     state = {
         incidentNumber: null,
-        incidentData: {rows: null, columns: null},
-        location: null,
+        incident: null,
     };
 
     componentDidMount(){
-        this.setState({incidentNumber: this.props.incidentNumber})
-        // this.getIncidentData()
+        this.setState({incidentNumber: this.props.incidentNumber},
+            function() {
+                this.getIncidentData();
+            })
+        
     }
 
-    // getIncidentData() {
-    //     var incidentColumns= [
-    //         {value: 'Incident Type', field:'Incident Type', label: 'Incident Type', width: 700},
-    //         {value: 'Count', field:'Count', label: 'Count', width: 60},
-    //         {value: 'Incident Code', field:'Incident Code', label: 'Incident Code', width: 200},
-    //     ]
-    //     var incidentRows = []
-
-    //     this.setState({incidentData: {columns: incidentColumns, rows: incidentRows}})
-    // }
+    getIncidentData() {
+        fetch('/getIncidentData/'+this.state.incidentNumber)
+                .then(results => {
+                    results.json().then(data => {
+                        this.setState({incident: data})
+                    })
+                })
+                .catch(err => console.error(err))
+    }
 
     getIncidentType() {
-        if(true){
-            //put all of the incident types in the state and map it
+        if(this.state.incident){
+            var incidentType = this.state.incident.map((incident) =>
+                <input readOnly key={incident.SequenceNumber} value={" "+ incident.OffenseDescription} style={{ width: "100%" }}/>
+            ) 
+            return incidentType
+        } else {
             return(
                 <div>
-                    <input readOnly value={" Mental Health Issue or Concern - Involunatry Transport"} style={{ width: "100%" }}/>
+                    <input readOnly value={""} style={{ width: "100%" }}/>
+                </div>
+            )
+        }
+
+    }
+    getIncidentCount() {
+        if(this.state.incident){
+            var incidentCounts = this.state.incident.map((incident) =>
+                <input readOnly key={incident.SequenceNumber} value={" "+ incident.Counts} style={{ width: "100%" }}/>
+            ) 
+            return incidentCounts
+        } else {
+            return(
+                <div>
+                    <input readOnly value={""} style={{ width: "100%" }}/>
                 </div>
             )
         } 
-        // var incidentType = this.state.incidentTypes.map((incident) => {
-        //     return (
-        //         <input readOnly value={" "+ incident} style={{ width: "100%" }}/>
-        //     )
-        //  }) 
-    }
-    getIncidentCount() {
-        if(true){
-            return(
-                <div>
-                    <input readOnly value={" "} style={{ width: "100%" }}/>
-                </div>
-            )
-        }  
     }
     getIncidentCode() {
-        if(true){
+        if(this.state.incident){
+            var incidentCodes = this.state.incident.map((incident) =>
+                <input readOnly key={incident.SequenceNumber} value={" "+ incident.OffenseCode} style={{ width: "100%" }}/>
+            ) 
+            return incidentCodes
+        } else {
             return(
                 <div>
-                    <input readOnly value={" 9999MH"} style={{ width: "100%" }}/>
+                    <input readOnly value={""} style={{ width: "100%" }}/>
                 </div>
             )
-        }  
+        }
     }
 
     
@@ -65,19 +75,6 @@ class Incident extends Component {
     render() {
         return(
             <div className='row'>
-                {/* <div className="col-12">
-                    <MDBDataTable
-                        scrollX
-                        striped
-                        bordered
-                        hover
-                        paging={false}
-                        searching={false}
-                        entries={20}
-                        data={this.state.incidentData}
-                    />
-                    
-                </div> */}
                 <div className='col-8'>
                     <label>Incident Type</label>
                     {this.getIncidentType()}
