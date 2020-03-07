@@ -2,9 +2,38 @@
   "name": "policereport",
   "version": "0.0.0",
   "private": true,
+
+
+
+
+
+  "COMMENTS FOR SCRIPTS!!": {
+    "When running on Windows with default SSL and CRT(not desired)": {
+      "start": "set HTTPS=true&&node ./server/index.js",
+      "client": "set HTTPS=true&&npm run start --prefix client"
+    },
+    "When running on Windows with custom SSL and CRT": {
+      "start": "set HTTPS=true&&set SSL_CRT_FILE=[path to cert.crt]&&set SSL_KEY_FILE=[path to cert.key]&&node ./server/index.js",
+      "client": "set HTTPS=true&&set SSL_CRT_FILE=[path to cert.crt]&&set SSL_KEY_FILE=[path to cert.key]&&npm run start --prefix client"
+    },
+    "When running on Linux/MacOS with default SSL and CRT(not desired)": {
+      "start": "HTTPS=true node ./server/index.js",
+      "client": "HTTPS=true npm run start --prefix client"
+    },
+    "When running on Linux/MacOS with custom SSL and CRT": {
+      "start": "HTTPS=true SSL_CRT_FILE=[path to cert.crt] SSL_KEY_FILE=[path to cert.key] node ./server/index.js",
+      "client": "HTTPS=true SSL_CRT_FILE=[path to cert.crt] SSL_KEY_FILE=[path to cert.key] npm run start --prefix client"
+    }
+  },
+
+
+
+
+
   "scripts": {
-    "start": "node ./server/index.js",
-    "client": "npm run start --prefix client"
+    "start": "set HTTPS=true&&node ./server/index.js",
+    "client": "set HTTPS=true&&npm run start --prefix client"
+    
   },
   "dependencies": {
     "async-mutex": "^0.1.4",

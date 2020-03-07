@@ -66,7 +66,11 @@ function add_router(app) {
         queryString = query_factory.search(req.params.incident_number);
         db_query(queryString, (err, result) => {
             if (!err) res.send(result);
-            else res.status(400).send(err);
+            else 
+            {
+                console.log(err)
+                res.status(400).send(err);
+            }
         });
     });
     

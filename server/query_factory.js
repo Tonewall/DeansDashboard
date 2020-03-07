@@ -4,17 +4,13 @@ const sprintf = require('sprintf-js').sprintf;
 
 module.exports.showall = function(criteria=null, max_num_reports=-1) {
     return 'SELECT distinct ' + ((max_num_reports==-1) ? '':sprintf('top (%d)', max_num_reports)) +
-            ' [ARPIncidentNew].[OCA] as [Case]\n\
-            , CONVERT(varchar, [ARPIncidentNew].[DateReported], 23) as [Report Date]\n\
-            , CONVERT(varchar, [ARPIncidentNew].[LastUpdatedDate], 23) as [Approved Date]\n\
-            , [tblLkpIBRCaseStatus].[Description] as [Status]\n\
-            , [ARPOffense].[OffenseDescription] as [Description]\n\
-            , [ARPIncidentNew].[Location] as [Location]\n\
-        FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\n\
-            LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRCaseStatus]\n\
-            ON ([ARPIncidentNew].[CaseStatus] = [tblLkpIBRCaseStatus].[Code])\n\
-            LEFT JOIN [SS_GARecords_Incident].[dbo].[ARPOffense]\n\
-            ON ( [ARPIncidentNew].[OCA] = [ARPOffense].[OCANumber] )\n' +
+            ' [ARPLandingNew].[OCA] as [Case]\n\
+            , CONVERT(varchar, [ARPLandingNew].[DateReported], 23) as [Report Date]\n\
+            , CONVERT(varchar, [ARPLandingNew].[DateApproved], 23) as [Approved Date]\n\
+            , [ARPLandingNew].[StatusDescription] as [Status]\n\
+            , [ARPLandingNew].[Description]\n\
+            , [ARPLandingNew].[Location]\n\
+        FROM [SS_GARecords_Incident].[dbo].[ARPLandingNew]\n'+
         (criteria==null ? '' : ('WHERE ' + criteria + '\n'))+
         'ORDER BY [Case] DESC';
 }
@@ -24,8 +20,28 @@ module.exports.filter = function(criteria) {
 
     criteria_script = ''
 
+    console.log(criteria)
+
     /* Date Filter */
     criteria_script = '([DateReported] >= \'' + criteria.startDate + '\' AND [DateReported] <= \'' + criteria.endDate + '\')'
+
+    /* Report Type Filter */
+    switch(criteria.selectedReportType.value) {
+        case "All":
+            // DO NOTHING
+            break;
+        case "Approved":
+            criteria_script += 'AND ([ARPLandingNew].[DateApproved] is not null)'
+            break;
+        case "Unapproved":
+            criteria_script += 'AND ([ARPLandingNew].[DateApproved] is null)'
+            break;
+        case "Juvenile":
+            criteria_script += 'AND ([ARPLandingNew].[Juvenile] = \'1\')'
+            break;
+        default:
+            console.log("invalid report type");
+    }
 
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
@@ -34,7 +50,7 @@ module.exports.filter = function(criteria) {
 /* Queries for instant search for specific incident number*/
 module.exports.search = function(incident_number) {
 
-    criteria_script = '[ARPIncidentNew].[OCA] like \'%' + incident_number + '%\''
+    criteria_script = '[ARPLandingNew].[OCA] like \'%' + incident_number + '%\''
 
     return this.showall(criteria = criteria_script)
 }

@@ -5,7 +5,7 @@ import Date from "./FilterComponents/Date"
 
 
 const reportTypeOptions = [
-    {value: 'Normal', label: 'Normal'},
+    {value: 'All', label: 'All'},
     {value: 'Approved', label: 'Approved'},
     {value: 'Unapproved', label: 'Unapproved'},
     {value: 'Juvenile', label: 'Juvenile'},
@@ -17,7 +17,7 @@ class Filter extends Component {
         this.state = {
             startDate: null,
             endDate: null,
-            selectedReportType:{value: 'Normal', label: 'Normal'},
+            selectedReportType:{value: 'All', label: 'All'}
         };
         this.dateHandler = this.dateHandler.bind(this)
         this.setReportType = this.setReportType.bind(this)
