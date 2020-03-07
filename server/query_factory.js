@@ -319,3 +319,23 @@ module.exports.getIncidentBasic = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+module.exports.getComplainant = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[PersonType]\
+        ,[FirstName]\
+        ,[LastName]\
+        ,[DOB]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[Zip]\
+        ,[Phone]\
+        ,[SequenceNumber]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPComplainant]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}

@@ -3,6 +3,7 @@ import './FullReport.css';
 import Incident from './FullReportComponents/Incident'
 import IncidentLocation from './FullReportComponents/IncidentLocation'
 import IncidentTime from './FullReportComponents/IncidentTime'
+import Complainant from './FullReportComponents/Complainant'
 
 class fullReport extends Component {
     constructor(props) {
@@ -46,6 +47,7 @@ class fullReport extends Component {
                     <Incident incidentNumber={this.props.match.params.incidentNumber}/>
                     <IncidentLocation incidentNumber={this.props.match.params.incidentNumber}/>
                     <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
+                    <Complainant incidentNumber={this.props.match.params.incidentNumber}/>
                 </div>
             </div>
         </div>
