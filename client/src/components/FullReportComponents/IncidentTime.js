@@ -18,7 +18,6 @@ class IncidentTime extends Component {
         fetch('/getIncidentBasic/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
-                        console.log(data)
                         this.setState({data: data})
                     })
                 })
@@ -46,7 +45,7 @@ class IncidentTime extends Component {
     }
 
     getIncidentFromDate() {
-        if(this.state.data){
+        if(this.state.data && this.state.data[0]){
             var fromDateTime = this.getDateTimeFormat(this.state.data[0].IncidentFromDate, this.state.data[0].IncidentFromTime)
             return(
                 <div>
@@ -62,7 +61,7 @@ class IncidentTime extends Component {
         } 
     }
     getIncidentToDate() {
-        if(this.state.data){
+        if(this.state.data && this.state.data[0]){
             var toDateTime = this.getDateTimeFormat(this.state.data[0].IncidentToDate, this.state.data[0].IncidentToTime)
             return(
                 <div>

@@ -25,7 +25,7 @@ class IncidentLocation extends Component {
     }
 
     getLocation() {
-        if(this.state.location){
+        if(this.state.location && this.state.location[0]){
             return(
                 <div>
                     <input readOnly value={" " + this.state.location[0].Location} style={{ width: "100%" }}/>
@@ -41,7 +41,7 @@ class IncidentLocation extends Component {
         
     }
     getLocationCode() {
-        if(this.state.location){
+        if(this.state.location && this.state.location[0]){
             return(
                 <div>
                     <input readOnly value={" " + this.state.location[0].LocationCode} style={{ width: "100%" }}/>

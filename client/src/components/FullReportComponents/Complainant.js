@@ -20,7 +20,6 @@ class Complainant extends Component {
         fetch('/getComplainant/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
-                        console.log(data)
                         this.setState({complainant: data})
                     })
                 })
@@ -28,7 +27,7 @@ class Complainant extends Component {
     }
 
     getComplainantName() {
-        if(this.state.complainant){
+        if(this.state.complainant && this.state.complainant[0]){
             return(
                 <div>
                     <input readOnly value={" " + this.state.complainant[0].FirstName + " " + this.state.complainant[0].LastName} style={{ width: "100%" }}/>
@@ -44,7 +43,7 @@ class Complainant extends Component {
 
     }
     getComplainantAddress() {
-        if(this.state.complainant){
+        if(this.state.complainant && this.state.complainant[0]){
             return(
                 <div>
                     <input readOnly value={" " + this.state.complainant[0].HomeAddress} style={{ width: "100%" }}/>
@@ -59,7 +58,7 @@ class Complainant extends Component {
         } 
     }
     getComplainantPhone() {
-        if(this.state.complainant){
+        if(this.state.complainant && this.state.complainant[0]){
             return(
                 <div>
                     <input readOnly value={" " + this.state.complainant[0].Phone} style={{ width: "100%" }}/>

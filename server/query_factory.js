@@ -339,3 +339,30 @@ module.exports.getComplainant = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+module.exports.getVictim = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[VictimType]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[FirstName]\
+        ,[MiddleName]\
+        ,[LastName]\
+        ,[DOB]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[ZIP]\
+        ,[Student]\
+        ,[CensusTract]\
+        ,[VictimSchool]\
+        ,[Phone]\
+        ,[WorkPhone]\
+        ,[Employer]\
+        ,[Occupation]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPVictim]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}

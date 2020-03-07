@@ -28,8 +28,8 @@ class Incident extends Component {
 
     getIncidentType() {
         if(this.state.incident){
-            var incidentType = this.state.incident.map((incident) =>
-                <input readOnly key={incident.SequenceNumber} value={" "+ incident.OffenseDescription} style={{ width: "100%" }}/>
+            var incidentType = this.state.incident.map((incident, index) =>
+                <input readOnly key={index} value={" "+ incident.OffenseDescription} style={{ width: "100%" }}/>
             ) 
             return incidentType
         } else {
@@ -43,8 +43,8 @@ class Incident extends Component {
     }
     getIncidentCount() {
         if(this.state.incident){
-            var incidentCounts = this.state.incident.map((incident) =>
-                <input readOnly key={incident.SequenceNumber} value={" "+ incident.Counts} style={{ width: "100%" }}/>
+            var incidentCounts = this.state.incident.map((incident, index) =>
+                <input readOnly key={index} value={" "+ incident.Counts} style={{ width: "100%" }}/>
             ) 
             return incidentCounts
         } else {
@@ -57,8 +57,8 @@ class Incident extends Component {
     }
     getIncidentCode() {
         if(this.state.incident){
-            var incidentCodes = this.state.incident.map((incident) =>
-                <input readOnly key={incident.SequenceNumber} value={" "+ incident.OffenseCode} style={{ width: "100%" }}/>
+            var incidentCodes = this.state.incident.map((incident, index) =>
+                <input readOnly key={index} value={" "+ incident.OffenseCode} style={{ width: "100%" }}/>
             ) 
             return incidentCodes
         } else {
