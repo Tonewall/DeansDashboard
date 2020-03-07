@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import './FullReport.css';
 import Incident from './FullReportComponents/Incident'
 import IncidentLocation from './FullReportComponents/IncidentLocation'
+import IncidentTime from './FullReportComponents/IncidentTime'
 
 class fullReport extends Component {
     constructor(props) {
@@ -26,15 +27,6 @@ class fullReport extends Component {
             )
         }
     }
-    getAgencyID() {
-        if(this.state.incidentNumber != null) {
-            return (
-                <div>
-                    <div className="col-12">Agency ID (ORI): {} </div>                
-                </div>
-            )
-        }
-    }
 
 
     render() {
@@ -45,7 +37,7 @@ class fullReport extends Component {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-6">
-                            <b>{this.getAgencyID()}</b>
+                            <b>Agency ID (ORI): GA0601000</b>
                         </div>
                         <div className="col-6">
                             <b>{this.getCaseNumber()}</b>
@@ -53,6 +45,7 @@ class fullReport extends Component {
                     </div>
                     <Incident incidentNumber={this.props.match.params.incidentNumber}/>
                     <IncidentLocation incidentNumber={this.props.match.params.incidentNumber}/>
+                    <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
                 </div>
             </div>
         </div>
