@@ -20,8 +20,6 @@ module.exports.filter = function(criteria) {
 
     criteria_script = ''
 
-    console.log(criteria)
-
     /* Date Filter */
     criteria_script = '([DateReported] >= \'' + criteria.startDate + '\' AND [DateReported] <= \'' + criteria.endDate + '\')'
 
