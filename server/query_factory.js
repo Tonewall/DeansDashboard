@@ -287,3 +287,98 @@ module.exports.get_property = function(incident_number) {
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }
+
+module.exports.getIncidentData = function(incident_number) {
+    return sprintf('\
+        SELECT [SequenceNumber]\
+        ,[SupplementNumber]\
+        ,[OffenseCode]\
+        ,[AttemptComplete]\
+        ,[OffenseDescription]\
+        ,[Counts]\
+        ,[OffenseType]\
+        ,[Statute]\
+        ,[OCANumber]\
+        ,[Degree]\
+        FROM [SS_GARecords_Incident].[dbo].[ARPOffense]\
+        WHERE ([OCANumber]=\'%s\')\n\
+        ORDER BY [SequenceNumber] ASC\
+    ', incident_number)
+}
+module.exports.getIncidentBasic = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[LastUpdatedDate]\
+        ,[DateReported]\
+        ,[TimeReported]\
+        ,[IncidentToDate]\
+        ,[IncidentToTime]\
+        ,[IncidentFromDate]\
+        ,[IncidentFromTime]\
+        ,[CaseStatus]\
+        ,[CaseDisposition]\
+        ,[ReportingOfficerName]\
+        ,[ReportingOfficerID]\
+        ,[ClearanceDate]\
+        ,[ClearingOfficerID]\
+        ,[ClearingOfficerName]\
+        ,[LocationCode]\
+        ,[Location]\
+        ,[IncidentType]\
+        ,[CaseManagementStatus]\
+        ,[Narrative]\
+        ,[GCIC]\
+        ,[DrugRelated]\
+        ,[Juvenile]\
+        ,[ApprovingOfficerID]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPIncidentNew]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
+module.exports.getComplainant = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[PersonType]\
+        ,[FirstName]\
+        ,[LastName]\
+        ,[DOB]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[Zip]\
+        ,[Phone]\
+        ,[SequenceNumber]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPComplainant]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
+module.exports.getVictim = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[VictimType]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[FirstName]\
+        ,[MiddleName]\
+        ,[LastName]\
+        ,[DOB]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[ZIP]\
+        ,[Student]\
+        ,[CensusTract]\
+        ,[VictimSchool]\
+        ,[Phone]\
+        ,[WorkPhone]\
+        ,[Employer]\
+        ,[Occupation]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPVictim]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}

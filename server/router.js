@@ -319,6 +319,55 @@ function add_router(app) {
             else res.status(400).send(err);
         });
     });
+    app.get('/getIncidentData/:incident_number', function (req, res) {
+        query = query_factory.getIncidentData(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+    app.get('/getIncidentBasic/:incident_number', function (req, res) {
+        query = query_factory.getIncidentBasic(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+    app.get('/getComplainant/:incident_number', function (req, res) {
+        query = query_factory.getComplainant(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+    app.get('/getVictim/:incident_number', function (req, res) {
+        query = query_factory.getVictim(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+    
 }
 
 
