@@ -46,3 +46,7 @@ thead{
 tbody{
   word-break: break-all;
 }
+
+.notification .notification-message .title{
+  font-size: 15px;
+}
