@@ -2,27 +2,56 @@ const sprintf = require('sprintf-js').sprintf;
 
 // TODO: add more methods for common query generation
 
-module.exports.showall = function(criteria=null) {
-    return sprintf('\
-        SELECT distinct [tblIncident].[IncidentNumber] as [Incident Number]\n') +
-        '\
-            , CONVERT(varchar, [ReportDate], 23) as [Report Date]\
-            , CONCAT([LocationStreetNumber], \' \', [LocationStreet]) as [Street]\
-            , [LocationLandmark] as [Location Name]\
-            , [CaseStatus] as [Case Status]\
-            , [OffenseDescription] as [Description]\
-            , CONVERT(varchar, [DateApproved], 23) as [DateApproved]\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\
-            LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\
-            ON ( [tblIncident].[IncidentNumber] = [tblIncidentOffense].[IncidentNumber] )\
-                Where LEN([tblIncident].[IncidentNumber]) = 8 \n' +
-        (criteria==null ? '' : ('AND ' + criteria + '\n'))+
-        'ORDER BY [Report Date] DESC';
+module.exports.showall = function(criteria=null, max_num_reports=-1) {
+    return 'SELECT distinct ' + ((max_num_reports==-1) ? '':sprintf('top (%d)', max_num_reports)) +
+            ' [ARPLandingNew].[OCA] as [Case]\n\
+            , CONVERT(varchar, [ARPLandingNew].[DateReported], 23) as [Report Date]\n\
+            , CONVERT(varchar, [ARPLandingNew].[DateApproved], 23) as [Approved Date]\n\
+            , [ARPLandingNew].[StatusDescription] as [Status]\n\
+            , [ARPLandingNew].[Description]\n\
+            , [ARPLandingNew].[Location]\n\
+        FROM [SS_GARecords_Incident].[dbo].[ARPLandingNew]\n'+
+        (criteria==null ? '' : ('WHERE ' + criteria + '\n'))+
+        'ORDER BY [Case] DESC';
 }
-// LEFT JOIN [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\
-// ON ( [tblIncidentOffender].[IncidentNumber] = [Incident Offenses-GTPD+APD].[OCA Number] )\
-//            , [Description]\
 
+/* Queries for filters */
+module.exports.filter = function(criteria) {
+
+    criteria_script = ''
+
+    /* Date Filter */
+    criteria_script = '([DateReported] >= \'' + criteria.startDate + '\' AND [DateReported] <= \'' + criteria.endDate + '\')'
+
+    /* Report Type Filter */
+    switch(criteria.selectedReportType.value) {
+        case "All":
+            // DO NOTHING
+            break;
+        case "Approved":
+            criteria_script += 'AND ([ARPLandingNew].[DateApproved] is not null)'
+            break;
+        case "Unapproved":
+            criteria_script += 'AND ([ARPLandingNew].[DateApproved] is null)'
+            break;
+        case "Juvenile":
+            criteria_script += 'AND ([ARPLandingNew].[Juvenile] = \'1\')'
+            break;
+        default:
+            console.log("invalid report type");
+    }
+
+    return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
+}
+
+
+/* Queries for instant search for specific incident number*/
+module.exports.search = function(incident_number) {
+
+    criteria_script = '[ARPLandingNew].[OCA] like \'%' + incident_number + '%\''
+
+    return this.showall(criteria = criteria_script)
+}
 
 
 module.exports.get_incident_basic = function(incident_number) {
@@ -257,19 +286,6 @@ module.exports.get_property = function(incident_number) {
         WHERE ([IncidentNumber]=\'%s\')\n\
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
-}
- 
-/* Queries for filters */
-module.exports.filter = function(criteria) {
-
-    criteria_script = ''
-
-    /* Date Filter */
-    criteria_script = '([ReportDate] >= \'' + criteria.startDate + '\' AND [ReportDate] <= \'' + criteria.endDate + '\')'
-    if(criteria.incidentNumber){
-        criteria_script += 'AND [tblIncident].[IncidentNumber] = \'' + criteria.incidentNumber + '\''
-    }
-    return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
 
 module.exports.getIncidentData = function(incident_number) {
