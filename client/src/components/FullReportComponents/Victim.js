@@ -20,7 +20,6 @@ class Victim extends Component {
         fetch('/getVictim/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
-                        console.log(data)
                         this.setState({victim: data})
                     })
                 })

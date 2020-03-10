@@ -157,3 +157,33 @@ module.exports.getVictim = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+module.exports.getOffender = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[FirstName]\
+        ,[LastName]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[Zip]\
+        ,[DOB]\
+        ,[Height]\
+        ,[Weight]\
+        ,[Hair]\
+        ,[Eyes]\
+        ,[OffenseDate]\
+        ,[ArrestScene]\
+        ,[Wanted]\
+        ,[Warrant]\
+        ,[Arrest]\
+        ,[CensusTract]\
+        ,[PrimaryKey]\
+        ,[MiddleName]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPOffender]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
