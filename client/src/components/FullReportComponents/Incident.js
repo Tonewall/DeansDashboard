@@ -44,7 +44,7 @@ class Incident extends Component {
     getIncidentCount() {
         if(this.state.incident){
             var incidentCounts = this.state.incident.map((incident, index) =>
-                <input readOnly key={index} value={" "+ incident.Counts} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(incident.Counts === null) ? "" : " "+ incident.Counts} style={{ width: "100%" }}/>
             ) 
             return incidentCounts
         } else {

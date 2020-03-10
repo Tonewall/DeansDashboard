@@ -30,7 +30,7 @@ class Victim extends Component {
     getVictimName() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim) =>
-                <input readOnly key={victim.FirstName} value={" "+ victim.FirstName + " " + victim.LastName} style={{ width: "100%" }}/>
+                <input readOnly key={victim.FirstName} value={" "+ ((victim.FirstName === null) ? "" : victim.FirstName) + " " + ((victim.LastName === null) ? "" : victim.LastName)} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {
@@ -45,7 +45,7 @@ class Victim extends Component {
     getRace() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim, index) =>
-                <input readOnly key={index} value={" "+ victim.Race} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(victim.Race === null) ? "" : " "+ victim.Race} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
@@ -53,7 +53,7 @@ class Victim extends Component {
     getAge() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim, index) =>
-                <input readOnly key={index} value={" "+ victim.Age} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(victim.Age === null) ? "" : " "+ victim.Age} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
@@ -61,7 +61,7 @@ class Victim extends Component {
     getSex() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim, index) =>
-                <input readOnly key={index} value={" "+ victim.Sex} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(victim.Sex === null) ? "" : " "+ victim.Sex} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
@@ -69,7 +69,7 @@ class Victim extends Component {
     getResidencePhone() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim, index) =>
-                <input readOnly key={index} value={" "+ victim.Phone} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(victim.Phone === null) ? "" : " "+ victim.Phone} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
@@ -77,7 +77,7 @@ class Victim extends Component {
     getWorkPhone() {
         if(this.state.victim){
             var victims = this.state.victim.map((victim, index) =>
-                <input readOnly key={index} value={" "+ victim.WorkPhone} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(victim.WorkPhone === null) ? "" : " "+ victim.WorkPhone} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
