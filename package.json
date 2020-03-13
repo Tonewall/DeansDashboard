@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./server/index.js",
-    "client": "npm run start --prefix client"
+    "client": "npm run start --prefix client",
+    "server": "node ./server/index.js --server-only",
+    "build": "npm run build --prefix client"
   },
   "dependencies": {
     "async-mutex": "^0.1.4",
@@ -30,6 +32,7 @@
     "react-scripts": "^3.2.0",
     "react-select": "^3.0.8",
     "read": "^1.0.7",
+    "serve": "^11.3.0",
     "sprintf-js": "^1.1.2",
     "typescript": "^3.7.2"
   },

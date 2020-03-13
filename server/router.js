@@ -201,9 +201,12 @@ module.exports = function (app) {
                 add_router(app);
                 console.log('\x1b[0m', "[Server] Now attaching router...\n")
                 console.log('[Server] Router successfully attached.\n');
-                console.log("[Client] Now starting the client");
-                client = exec('npm run client')
-                client.stdout.on('data', (data) => { console.log('[Client] : ' + data) });
+                if(!process.argv[2] || process.argv[2]!='--server-only')
+                {
+                    console.log("[Client] Now starting the client");
+                    client = exec('npm run client')
+                    client.stdout.on('data', (data) => { console.log('[Client] : ' + data) });
+                }
             }
             else {
                 console.log('\x1b[31m', "[Server] Database configuration failed!\n" + error_reason + '\n');
