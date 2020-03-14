@@ -161,7 +161,34 @@ function add_router(app) {
             else res.status(400).send(err);
         });
     });
+
+
+
+    app.get('/getNarrative/:incident_number', function (req, res) {
+        query = query_factory.get_narrative(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
     
+    app.get('/getSupplements/:incident_number', function (req, res) {
+        query = query_factory.get_supplements(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
 }
 
 

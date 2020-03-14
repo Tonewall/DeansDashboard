@@ -227,3 +227,28 @@ module.exports.getProperty = function(incident_number) {
     where ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+
+
+
+module.exports.get_narrative = function(incident_number) {
+    return sprintf('\
+        SELECT [Narrative]\n\
+            , [ReportingOfficerName]\n\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\n\
+        WHERE ([IncidentNumber]=\'%s\')\n\
+    ', incident_number)
+}
+
+module.exports.get_supplements = function(incident_number) {
+    return sprintf('\
+        SELECT [SequenceNumber]\n\
+            , CONVERT(varchar, [SupplementDate], 23) as [Date]\n\
+            , CONVERT(varchar, [SupplementTime], 8) as [Time]\n\
+            , [SupplementType]\n\
+            , [OfficerName]\n\
+            , [Narrative]\n\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncidentSupplement]\n\
+        WHERE ([IncidentNumber]=\'%s\' and [Narrative] is not null)\n\
+        ORDER BY [SequenceNumber] ASC\
+    ', incident_number)
+}

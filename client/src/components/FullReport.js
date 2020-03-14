@@ -7,6 +7,8 @@ import Complainant from './FullReportComponents/Complainant'
 import Victim from './FullReportComponents/Victim'
 import Offender from './FullReportComponents/Offender'
 import Vehicle from './FullReportComponents/Vehicle'
+import Narrative from './FullReportComponents/Narrative'
+import Supplements from './FullReportComponents/Supplements'
 
 class fullReport extends Component {
     constructor(props) {
@@ -94,8 +96,10 @@ class fullReport extends Component {
                                     <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Complainant incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Victim incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <Offender incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <Vehicle incidentNumber={this.props.match.params.incidentNumber}/>
+                                    {/*<Offender incidentNumber={this.props.match.params.incidentNumber}/>*/}
+                                    {/*<Vehicle incidentNumber={this.props.match.params.incidentNumber}/>*/}
+                                    <Narrative incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <Supplements incidentNumber={this.props.match.params.incidentNumber}/>
                                 </div>
                             </div>
                         </div>

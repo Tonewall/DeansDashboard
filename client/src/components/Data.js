@@ -48,7 +48,7 @@ class Data extends Component {
             }
             else
             {
-                row['Case'] = <a href={link} style={{textDecoration:'underline'}}>{incidentNumber}</a>
+                row['Case'] = <a href={link} target="_blank" style={{textDecoration:'underline'}}>{incidentNumber}</a>
             }
             
             for(var j = 1; j < columns.length; j++) {
