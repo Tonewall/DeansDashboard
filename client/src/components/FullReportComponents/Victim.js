@@ -28,8 +28,8 @@ class Victim extends Component {
 
     getVictimName() {
         if(this.state.victim){
-            var victims = this.state.victim.map((victim) =>
-                <input readOnly key={victim.FirstName} value={" "+ ((victim.FirstName === null) ? "" : victim.FirstName) + " " + ((victim.LastName === null) ? "" : victim.LastName)} style={{ width: "100%" }}/>
+            var victims = this.state.victim.map((victim, index) =>
+                <input readOnly key={index} value={" "+ ((victim.FirstName === null) ? "" : victim.FirstName) + " " + ((victim.LastName === null) ? "" : victim.LastName)} style={{ width: "100%" }}/>
             ) 
             return victims
         } else {

@@ -28,7 +28,6 @@ class Offender extends Component {
 
     getOffenderName() {
         if(this.state.offender && this.state.offender.length){
-            console.log(this.state.offender)
             var offenders = this.state.offender.map((offender) =>
                 <input readOnly key={offender.FirstName} value={" "+ ((offender.FirstName === null) ? "" : offender.FirstName) + " " + ((offender.LastName === null) ? "" : offender.LastName)} style={{ width: "100%" }}/>
             ) 

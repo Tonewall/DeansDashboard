@@ -187,3 +187,43 @@ module.exports.getOffender = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+module.exports.getProperty = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[VehicleID]\
+        ,[TypeCode]\
+        ,[Status]\
+        ,[ItemValue]\
+        ,[Vehicle]\
+        ,[ItemCategory]\
+        ,[Quantity]\
+        ,[ItemDescription]\
+        ,[Make]\
+        ,[Model]\
+        ,[SerialNumber]\
+        ,[PrimaryColor]\
+        ,[VehicleStyle]\
+        ,[VehicleYear]\
+        ,[Tag]\
+        ,[TagST]\
+        ,[VIN]\
+        ,[Owner]\
+        ,[Recovered]\
+        ,[InsuranceCompany]\
+        ,[IdentificationType]\
+        ,[MotorSize]\
+        ,[Transmission]\
+        ,[SuspectsVehicle]\
+        ,[RecoveredVehicle]\
+        ,[StolenVehicle]\
+        ,[RecoveredValue]\
+        ,[RecoveredQuantity]\
+        ,[RecoveredDescription]\
+        ,[RegistrationYear]\
+        ,[ReportAsProperty]\
+        ,[DateObtained]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPProperty]\
+    where ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
