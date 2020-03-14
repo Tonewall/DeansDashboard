@@ -10,7 +10,6 @@ class Narrative extends Component {
         fetch('/getNarrative/'+this.props.incidentNumber)
             .then(results => {
                 results.json().then(data => {
-                    console.log(data)
                     this.setState({narrative: data[0].Narrative, officer: data[0].ReportingOfficerName})
                 })
             })

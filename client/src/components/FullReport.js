@@ -32,11 +32,12 @@ class fullReport extends Component {
             })
             .then(results => {
                 results.json().then(data => {
-                    if(data.length===0)
+                    console.log(data)
+                    if(data.length==0)
                     {
                         this.setState({permission_check_running: false, permission_denied: true, report_class: 'unfound'});
                     }
-                    if(data[0]['Approved Date']==null)
+                    else if(data[0]['Approved Date']==null)
                     {
                         this.setState({permission_check_running: false, permission_denied: true, report_class: 'unapproved'});
                     }
@@ -96,8 +97,8 @@ class fullReport extends Component {
                                     <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Complainant incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Victim incidentNumber={this.props.match.params.incidentNumber}/>
-                                    {/*<Offender incidentNumber={this.props.match.params.incidentNumber}/>*/}
-                                    {/*<Vehicle incidentNumber={this.props.match.params.incidentNumber}/>*/}
+                                    <Offender incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <Vehicle incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Narrative incidentNumber={this.props.match.params.incidentNumber}/>
                                     <Supplements incidentNumber={this.props.match.params.incidentNumber}/>
                                 </div>

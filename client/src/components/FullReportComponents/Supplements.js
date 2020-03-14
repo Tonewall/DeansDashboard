@@ -27,7 +27,7 @@ class Supplements extends Component {
                 <div className="col-12">
                     <div className="row">
                         <div className="col-8">
-                            Created by: {data[i].OfficerName} on {data[i].Date} {data[i].TIme}
+                            Created by: {data[i].OfficerName} on {data[i].Date} at {data[i].Time}
                         </div>
                         <div className="col-4">
                             Type: {data[i].SupplementType}
