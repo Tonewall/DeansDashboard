@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import {server} from '../../config'
 
 class Supplements extends Component {
     state = {
@@ -7,7 +7,7 @@ class Supplements extends Component {
     };
 
     componentDidMount(){
-        fetch('/getSupplements/'+this.props.incidentNumber)
+        fetch(server+'/getSupplements/'+this.props.incidentNumber)
             .then(results => {
                 results.json().then(data => {
                     this.setState({supplements: data})

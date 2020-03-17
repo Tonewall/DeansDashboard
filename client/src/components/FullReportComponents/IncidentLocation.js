@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import {server} from '../../config'
 
 class IncidentLocation extends Component {
     state = {
@@ -15,7 +15,7 @@ class IncidentLocation extends Component {
             })
     }
     getIncidentLocation() {
-        fetch('/getIncidentBasic/'+this.state.incidentNumber)
+        fetch(server+'/getIncidentBasic/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
                         this.setState({location: data})

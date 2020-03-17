@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import {server} from '../../config'
 
 class Narrative extends Component {
     state = {
@@ -7,7 +7,7 @@ class Narrative extends Component {
     };
 
     componentDidMount(){
-        fetch('/getNarrative/'+this.props.incidentNumber)
+        fetch(server+'/getNarrative/'+this.props.incidentNumber)
             .then(results => {
                 results.json().then(data => {
                     this.setState({narrative: data[0].Narrative, officer: data[0].ReportingOfficerName})

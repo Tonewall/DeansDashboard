@@ -1,0 +1,11 @@
+- Things to modify when deploying on another machine
+    - ports configuration
+        - to run client on port XX:
+            - for development: PORT=XX in [root]/.env file.
+            - for production: npx serve [path-to-build-folder] -l XX
+            - Modify "Access-Control-Allow_Origin" header for server. 
+                - [root]/server/index.js : res.header("Access-Control-Allow-Origin", "https://[IP-addr]:XX");)
+        - to run server on port XX:
+            - [root]/server/index.js : console.log("\n\n[Server] Starting server on port XX")
+            - [root]/server/index.js : app.listen(XX, '0.0.0.0');
+            - [root]/client/src/config.js : module.exports.server = 'http://localhost:XX'

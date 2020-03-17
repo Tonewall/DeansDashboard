@@ -9,8 +9,9 @@ import Offender from './FullReportComponents/Offender'
 import Vehicle from './FullReportComponents/Vehicle'
 import Narrative from './FullReportComponents/Narrative'
 import Supplements from './FullReportComponents/Supplements'
+import {server} from '../config'
 
-class fullReport extends Component {
+class FullReport extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -23,7 +24,7 @@ class fullReport extends Component {
 
     componentDidMount() {
         this.setState({incidentNumber: this.props.match.params.incidentNumber})
-        fetch('/check_permission/'+this.props.match.params.incidentNumber)
+        fetch(server+'/check_permission/'+this.props.match.params.incidentNumber)
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
@@ -108,4 +109,4 @@ class fullReport extends Component {
         )
     }
 }
-export default fullReport;
+export default FullReport;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./Data.css";
 import { MDBDataTable } from 'mdbreact';
 import {NotificationManager} from 'react-notifications'
+import {server} from '../config'
 
 class Data extends Component {
 
@@ -86,7 +87,7 @@ class Data extends Component {
         this.setState({loading: true});
         if(this.props.filterState)
         {
-            fetch('/filter',
+            fetch(server+'/filter',
                 {
                     headers:{'Content-Type' : 'application/json'},
                     method: 'post',
@@ -107,7 +108,7 @@ class Data extends Component {
         }
         else if(this.props.instantSearchState)
         {
-            fetch('/search/'+this.props.instantSearchState.incidentNumber)
+            fetch(server+'/search/'+this.props.instantSearchState.incidentNumber)
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
@@ -122,7 +123,7 @@ class Data extends Component {
         }
         else
         {
-            fetch('/showall')
+            fetch(server+'/showall')
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
