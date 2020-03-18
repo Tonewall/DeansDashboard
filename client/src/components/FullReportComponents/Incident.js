@@ -76,7 +76,7 @@ class Incident extends Component {
         return(
             <div className='row'>
                 <div className='col-8'>
-                    <label>Incident Type</label>
+                    <label>Offense</label>
                     {this.getIncidentType()}
                         
                 </div>
@@ -85,7 +85,7 @@ class Incident extends Component {
                     {this.getIncidentCount()}
                 </div>
                 <div className='col-3'>
-                    <label>Incident Code</label>
+                    <label>Code</label>
                     {this.getIncidentCode()}
                 </div>
             </div>

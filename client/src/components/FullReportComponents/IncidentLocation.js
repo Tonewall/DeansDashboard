@@ -60,12 +60,12 @@ class IncidentLocation extends Component {
             <div>
                 <div className="row">
                     <div className='col-8'>
-                        <label>Incident Location</label>
+                        <label>Location</label>
                         {this.getLocation()}
                         
                     </div>
                     <div className='col-4'>
-                        <label>Location Code</label>
+                        <label>Code</label>
                         {this.getLocationCode()}
                     </div>
                 </div>
