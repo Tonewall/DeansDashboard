@@ -81,38 +81,75 @@ class Victim extends Component {
             return victims
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
-
-    
+    getAddress() {
+        if(this.state.victim){
+            var victims = this.state.victim.map((victim, index) =>
+                <input readOnly key={index} value={" "+(victim.HomeAddress?victim.HomeAddress+(victim.City?", "+victim.City+(victim.State?", "+victim.State:""):""):"")} style={{ width: "100%" }}/>
+            ) 
+            return victims
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
+    }
+    getStudent() {
+        if(this.state.victim){
+            var victims = this.state.victim.map((victim, index) =>
+            <input type="checkbox" key={index} checked={victim.Student && victim.Student=='Y'} disabled/>
+            ) 
+            return victims
+        } else {return(<input type="checkbox" checked={false} disabled/>)}
+    }
+    getJob() {
+        if(this.state.victim){
+            var victims = this.state.victim.map((victim, index) =>
+                <input readOnly key={index} value={" "+(victim.Employer?victim.Employer:"")+" "+(victim.Occupation?victim.Occupation:"")} style={{ width: "100%" }}/>
+            ) 
+            return victims
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
+    }
 
     render() {
         return(
-            <div className='row'>
-                <div className='col-3'>
-                    <label>Victim's Name</label>
-                    {this.getVictimName()}
+            <div>
+                <div className='row'>
+                    <div className='col-3'>
+                        <label>Victim's Name</label>
+                        {this.getVictimName()}
+                    </div>
+                    <div className='col-1'>
+                        <label>Race</label>
+                        {this.getRace()}
+                    </div>
+                    <div className='col-1'>
+                        <label>Age</label>
+                        {this.getAge()}
+                    </div>
+                    <div className='col-1'>
+                        <label>Sex</label>
+                        {this.getSex()}
+                    </div>
+                    <div className='col-3'>
+                        <label>Residence Phone</label>
+                        {this.getResidencePhone()}
+                    </div>
+                    <div className='col-3'>
+                        <label>Business Phone</label>
+                        {this.getWorkPhone()}
+                    </div>
                 </div>
-                <div className='col-1'>
-                    <label>Race</label>
-                    {this.getRace()}
-                </div>
-                <div className='col-1'>
-                    <label>Age</label>
-                    {this.getAge()}
-                </div>
-                <div className='col-1'>
-                    <label>Sex</label>
-                    {this.getSex()}
-                </div>
-                <div className='col-3'>
-                    <label>Residence Phone</label>
-                    {this.getResidencePhone()}
-                </div>
-                <div className='col-3'>
-                    <label>Business Phone</label>
-                    {this.getWorkPhone()}
+                <div className="row">
+                    <div className='col-6'>
+                        <label>Address</label>
+                        {this.getAddress()}
+                    </div>
+                    <div className='col-1'>
+                        <label>Student?</label>
+                        {this.getStudent()}
+                    </div>
+                    <div className='col-5'>
+                        <label>Employer or occupation</label>
+                        {this.getJob()}
+                    </div>
                 </div>
             </div>
-            
         )
     }
 }

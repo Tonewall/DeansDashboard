@@ -73,135 +73,79 @@ class Offender extends Component {
             return offenders
         } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
-    getStatus() {
-        if(this.state.offender && this.state.offender.length) {
-            return (
-                <div className="row">
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Wanted</label>
-                        <input className="row" type="checkbox" checked={this.state.offender[0].Wanted} disabled/>
-                    </div>
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Warrant</label>
-                        <input className="row" type="checkbox" checked={this.state.offender[0].Warrant} disabled/>
-                    </div>
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Arrest</label>
-                        <input className="row" type="checkbox" checked={this.state.offender[0].Arrest} disabled/>
-                    </div>   
-                </div>
-            )
-        } else {
-            return (
-                <div className="row">
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Arrest</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Warrant</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>
-                    <div className="col-4">
-                        <label className="row" for="inlineCheckbox3">Arrest</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>   
-                </div>
-            )
-        }
+    getWanted() {
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+                <input className="row" type="checkbox" key={index} checked={offender.Wanted && offender.Wanted=='1'} disabled/>
+            ) 
+            return offenders
+        } else {return(<input type="checkbox" checked={false} disabled/>)}
+    }
+    getWarrant() {
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+                <input className="row" type="checkbox" key={index} checked={offender.Warrant && offender.Warrant=='1'} disabled/>
+            ) 
+            return offenders
+        } else {return(<input type="checkbox" checked={false} disabled/>)}
+    }
+    getArrest() {
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+                <input className="row" type="checkbox" key={index} checked={offender.Arrest && offender.Arrest=='1'} disabled/>
+            ) 
+            return offenders
+        } else {return(<input type="checkbox" checked={false} disabled/>)}
+    }
+    getArrestAtScene() {
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+                <input className="row" type="checkbox" key={index} checked={offender.ArrestScene && offender.ArrestScene=='1'} disabled/>
+            ) 
+            return offenders
+        } else {return(<input className="row" type="checkbox" checked={false} disabled/>)}
     }
     getAddress() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].HomeAddress){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].HomeAddress} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+            <input readOnly key={index} value={" "+(offender.HomeAddress?offender.HomeAddress+(offender.City?", "+offender.City+(offender.State?", "+offender.State:""):""):"")} style={{ width: "100%" }}/>
+            ) 
+            return offenders
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
-    getCenusTract() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].CensusTract){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].CensusTract} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
-    }
+    
     getHeight() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].Height){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].Height} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+            <input readOnly key={index} value={(offender.Height === null) ? "" : " "+ offender.Height} style={{ width: "100%" }}/>
+            ) 
+            return offenders
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
     getWeight() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].Weight){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].Weight} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+            <input readOnly key={index} value={(offender.Weight === null) ? "" : " "+ offender.Weight} style={{ width: "100%" }}/>
+            ) 
+            return offenders
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
     getHair() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].Hair){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].Hair} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+            <input readOnly key={index} value={(offender.Hair === null) ? "" : " "+ offender.Hair} style={{ width: "100%" }}/>
+            ) 
+            return offenders
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
     }
     getEyes() {
-        if(this.state.offender && this.state.offender[0] && this.state.offender[0].Eyes){
-            return(
-                <div>
-                    <input readOnly value={" " + this.state.offender[0].Eyes} style={{ width: "100%" }}/>
-                </div>
-            )
-        } else {
-            return(
-                <div>
-                    <input readOnly value={""} style={{ width: "100%" }}/>
-                </div>
-            )
-        } 
-    }
-
-    
+        if(this.state.offender && this.state.offender.length){
+            var offenders = this.state.offender.map((offender, index) =>
+            <input readOnly key={index} value={(offender.Eyes === null) ? "" : " "+ offender.Eyes} style={{ width: "100%" }}/>
+            ) 
+            return offenders
+        } else {return(<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
+    }    
 
     render() {
         return(
@@ -216,6 +160,10 @@ class Offender extends Component {
                         {this.getRace()}
                     </div>
                     <div className='col-1'>
+                        <label>Age</label>
+                        {this.getAge()}
+                    </div>
+                    <div className='col-1'>
                         <label>Sex</label>
                         {this.getSex()}
                     </div>
@@ -224,21 +172,26 @@ class Offender extends Component {
                         {this.getDOB()}
                     </div>
                     <div className='col-1'>
-                        <label>Age</label>
-                        {this.getAge()}
+                        <label>Wanted</label>
+                        {this.getWanted()}
                     </div>
-                    <div className='col-3'>
-                        {this.getStatus()}
+                    <div className='col-1'>
+                        <label>Warrant</label>
+                        {this.getWarrant()}
+                    </div>
+                    <div className='col-1'>
+                        <label>Arrest</label>
+                        {this.getArrest()}
+                    </div>
+                    <div className='col-1'>
+                        <label>(At Scene)</label>
+                        {this.getArrestAtScene()}
                     </div>
                 </div>
                 <div className="row">
                     <div className='col-6'>
                         <label>Offender's Address</label>
                         {this.getAddress()}
-                    </div>
-                    <div className='col-2'>
-                        <label>Census Tract</label>
-                        {this.getCenusTract()}
                     </div>
                     <div className='col-1'>
                         <label>Height</label>
