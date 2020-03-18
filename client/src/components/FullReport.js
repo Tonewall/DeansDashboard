@@ -93,14 +93,23 @@ class FullReport extends Component {
                                             <b>{this.getCaseNumber()}</b>
                                         </div>
                                     </div>
+                                    <div className="unitGap"/>
                                     <Incident incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <IncidentLocation incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Complainant incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Victim incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Offender incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Vehicle incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Narrative incidentNumber={this.props.match.params.incidentNumber}/>
+                                    <div className="unitGap"/>
                                     <Supplements incidentNumber={this.props.match.params.incidentNumber}/>
                                 </div>
                             </div>

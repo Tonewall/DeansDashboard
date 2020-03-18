@@ -82,11 +82,18 @@ class IncidentTime extends Component {
                 <div className="row">
                     <div className='col-2'>
                         <label>Incident From Date/Time</label>
-                        {this.getIncidentFromDate()}
                         
                     </div>
                     <div className='col-2'>
                         <label>Incident To Date/Time</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className='col-2'>
+                        {this.getIncidentFromDate()}
+                        
+                    </div>
+                    <div className='col-2'>
                         {this.getIncidentToDate()}
                     </div>
                 </div>
