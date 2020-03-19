@@ -1,1 +1,1 @@
-module.exports.server = 'http://localhost:5001'
+module.exports.server = 'https://dashboard.police.gatech.edu:5000'
