@@ -87,7 +87,6 @@ class Complainant extends Component {
                 <div className='col-3'>
                     <label>Complainant</label>
                     {this.getComplainantName()}
-                        
                 </div>
                 <div className='col-6'>
                     <label>Address</label>

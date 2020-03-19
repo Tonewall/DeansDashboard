@@ -1,58 +1,34 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import {server} from '../../config'
 
 class Vehicle extends Component {
-    state = {
-        incidentNumber: null,
-        vehicle: null,
-    };
 
-    componentDidMount(){
-        this.setState({incidentNumber: this.props.incidentNumber},
-            function() {
-                this.getIncidentData();
-            })
-    }
-    getIncidentData() {
-        fetch(server+'/getProperty/'+this.state.incidentNumber)
-                .then(results => {
-                    results.json().then(data => {
-                        console.log(data)
-                        this.setState({vehicle: data})
-                    })
-                })
-                .catch(err => console.error(err))
-    }
+    getVehicleTag() {return(<div><input readOnly value={this.props.vehicle.Tag ? " " + this.props.vehicle.Tag : ''} style={{ width: "100%" }}/></div>)}
 
-    getVehicleTag(i) {return(<div><input readOnly value={this.state.vehicle[i].Tag ? " " + this.state.vehicle[i].Tag : ''} style={{ width: "100%" }}/></div>)}
+    getState() {return(<div><input readOnly value={this.props.vehicle.TagST ? " " + this.props.vehicle.TagST : ''} style={{ width: "100%" }}/></div>)}
 
-    getState(i) {return(<div><input readOnly value={this.state.vehicle[i].TagST ? " " + this.state.vehicle[i].TagST : ''} style={{ width: "100%" }}/></div>)}
+    getYear() {return(<div><input readOnly value={this.props.vehicle.RegistrationYear ? " " + this.props.vehicle.RegistrationYear : ''} style={{ width: "100%" }}/></div>)}
 
-    getYear(i) {return(<div><input readOnly value={this.state.vehicle[i].RegistrationYear ? " " + this.state.vehicle[i].RegistrationYear : ''} style={{ width: "100%" }}/></div>)}
+    getVIN() {return(<div><input readOnly value={this.props.vehicle.VIN ? " " + this.props.vehicle.VIN : ''} style={{ width: "100%" }}/></div>)}
 
-    getVIN(i) {return(<div><input readOnly value={this.state.vehicle[i].VIN ? " " + this.state.vehicle[i].VIN : ''} style={{ width: "100%" }}/></div>)}
+    getMake() {return(<div><input readOnly value={this.props.vehicle.Make ? " " + this.props.vehicle.Make : ''} style={{ width: "100%" }}/></div>)}
 
-    getMakeYear(i) {return(<div><input readOnly value={this.state.vehicle[i].VehicleYear ? " " + this.state.vehicle[i].VehicleYear : ''} style={{ width: "100%" }}/></div>)}
+    getModel() {return(<div><input readOnly value={this.props.vehicle.VehicleYear ? " " + this.props.vehicle.VehicleYear + (this.props.vehicle.Mode ? " " + this.props.vehicle.Mode : '') : ''} style={{ width: "100%" }}/></div>)}
 
-    getMake(i) {return(<div><input readOnly value={this.state.vehicle[i].Make ? " " + this.state.vehicle[i].Make : ''} style={{ width: "100%" }}/></div>)}
+    getStyle() {return(<div><input readOnly value={this.props.vehicle.VehicleStyle ? " " + this.props.vehicle.VehicleStyle : ''} style={{ width: "100%" }}/></div>)}
 
-    getModel(i) {return(<div><input readOnly value={this.state.vehicle[i].Mode ? " " + this.state.vehicle[i].Mode : ''} style={{ width: "100%" }}/></div>)}
+    getColor() {return(<div><input readOnly value={this.props.vehicle.PrimaryColor ? " " + this.props.vehicle.PrimaryColor : ""} style={{ width: "100%" }}/></div>)}
 
-    getStyle(i) {return(<div><input readOnly value={this.state.vehicle[i].VehicleStyle ? " " + this.state.vehicle[i].VehicleStyle : ''} style={{ width: "100%" }}/></div>)}
+    getMotor() {return(<div><input readOnly value={this.props.vehicle.MotorSize ? " " + this.props.vehicle.MotorSize : ""} style={{ width: "100%" }}/></div>)}
 
-    getColor(i) {return(<div><input readOnly value={this.state.vehicle[i].PrimaryColor ? " " + this.state.vehicle[i].PrimaryColor : ""} style={{ width: "100%" }}/></div>)}
-
-    getMotor(i) {return(<div><input readOnly value={this.state.vehicle[i].MotorSize ? " " + this.state.vehicle[i].MotorSize : ""} style={{ width: "100%" }}/></div>)}
-
-    getTransmission(i) {
+    getTransmission() {
         var transmission=''
-        if(this.state.vehicle[i].Transmission) {
-            if(this.state.vehicle[i].Transmission === 'A') {
+        if(this.props.vehicle.Transmission) {
+            if(this.props.vehicle.Transmission === 'A') {
                 transmission = 'Automatic'
-            } else if(this.state.vehicle[i].Transmission === 'M') {
+            } else if(this.props.vehicle.Transmission === 'M') {
                 transmission = 'Manual'
-            } else if(this.state.vehicle[i].Transmission === 'S') {
+            } else if(this.props.vehicle.Transmission === 'S') {
                 transmission = 'SPD'
             } 
         }
@@ -61,200 +37,132 @@ class Vehicle extends Component {
         )
     }
 
-    getInsurance(i) {return(<div><input readOnly value={this.state.vehicle[i].InsuranceCompany ? " " + this.state.vehicle[i].InsuranceCompany : ''} style={{ width: "100%" }}/></div>)}
+    getInsurance() {return(<div><input readOnly value={this.props.vehicle.InsuranceCompany ? " " + this.props.vehicle.InsuranceCompany : ''} style={{ width: "100%" }}/></div>)}
 
-    getBlank() {return (<div><input readOnly value={""} style={{ width: "100%" }}/></div>)}
-
-    getStatus(i) {
-        if(this.state.vehicle && this.state.vehicle[i]) {
-            return (
-                <div className="row">
-                    <div className='col-1'></div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Stolen</label>
-                        <input className="row" type="checkbox" checked={this.state.vehicle[i].StolenVehicle} disabled/>
-                    </div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Recovered</label>
-                        <input className="row" type="checkbox" checked={this.state.vehicle[i].RecoveredVehicle} disabled/>
-                    </div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Suspects</label>
-                        <input className="row" type="checkbox" checked={this.state.vehicle[i].SuspectsVehicle} disabled/>
-                    </div>   
-                </div>
-            )
-        } else {
-            return(
-                <div className="row">
-                    <div className='col-1'></div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Stolen</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Recovered</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>
-                    <div className="col-3">
-                        <label className="row" for="inlineCheckbox3">Suspects</label>
-                        <input className="row" type="checkbox" checked={false} disabled/>
-                    </div>   
-                </div>
-            )
-        }
-        
+    getStolen() {
+      return(<div><input className="row" type="checkbox" checked={this.props.vehicle.StolenVehicle} disabled/></div>)
     }
-    // getPlateStatus(i) {
-    //     return (
-    //         <div className="row">
-    //             <div className="col-6">
-    //                 <label className="row" for="inlineCheckbox3">Plate Only</label>
-    //                 <input className="row" type="checkbox" checked={this.state.vehicle[i].} disabled/>
-    //             </div>
-    //             <div className="col-6">
-    //                 <label className="row" for="inlineCheckbox3">VIN Plate only</label>
-    //                 <input className="row" type="checkbox" checked={this.state.vehicle[i].} disabled/>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-
+    getRecovered() {
+      return(<div><input className="row" type="checkbox" checked={this.props.vehicle.RecoveredVehicle} disabled/></div>)
+    }
+    getSuspects() {
+      return(<div><input className="row" type="checkbox" checked={this.props.vehicle.SuspectsVehicle} disabled/></div>)
+    }
 
     getVehicle() {
-        if(this.state.vehicle && this.state.vehicle[0]) {
-            for(var i = 0; i < this.state.vehicle.length; i++) {
-                if(this.state.vehicle[i].Vehicle) {
-                    return(
-                        <div>
-                            <div className="row">
-                                <div className='col-3'>
-                                    {this.getStatus(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Tag Number</label>
-                                    {this.getVehicleTag(i)}
-                                </div>
-                                <div className='col-1'>
-                                    <label>State</label>
-                                    {this.getState(i)}
-                                </div>
-                                <div className='col-1'>
-                                    <label>Reg. Year</label>
-                                    {this.getYear(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>VIN</label>
-                                    {this.getVIN(i)}
-                                </div>
-                                {/* <div className='col-2'>
-                                    {this.getPlateStatus(i)}
-                                </div> */}
-                            </div>
-                            <div className="row">
-                                <div className='col-1'>
-                                    <label>Year</label>
-                                    {this.getMakeYear(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Make</label>
-                                    {this.getMake(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Model</label>
-                                    {this.getModel(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Style</label>
-                                    {this.getStyle(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Color</label>
-                                    {this.getColor(i)}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className='col-2'>
-                                    <label>Motor Size</label>
-                                    {this.getMotor(i)}
-                                </div>
-                                <div className='col-2'>
-                                    <label>Transmission</label>
-                                    {this.getTransmission(i)}
-                                </div>
-                                <div className='col-8'>
-                                    <label>Insured By</label>
-                                    {this.getInsurance(i)}
-                                </div>
-                            </div>
-                        </div>
-                    
-                    )
-                }
-            }
-        }
         return(
             <div>
                 <div className="row">
-                    <div className='col-3'>
-                        {this.getStatus(0)}
-                    </div>
+                    <div className='col-1'/>
                     <div className='col-2'>
                         <label>Tag Number</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-1'>
                         <label>State</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-1'>
                         <label>Reg. Year</label>
-                        {this.getBlank()}
                     </div>
-                    <div className='col-2'>
+                    <div className='col-3'>
                         <label>VIN</label>
-                        {this.getBlank()}
                     </div>
-                    {/* <div className='col-2'>
-                        {this.getPlateStatus()}
-                    </div> */}
+                    <div className='col-1'>
+                        <label>Stolen</label>
+                    </div>
+                    <div className='col-1'>
+                        <label>Recovered</label>
+                    </div>
+                    <div className='col-1'>
+                        <label>Suspects</label>
+                    </div>
                 </div>
                 <div className="row">
-                    <div className='col-1'>
-                        <label>Year</label>
-                        {this.getBlank()}
+                    <div className='col-1'/>
+                    <div className='col-2'>
+                        {this.getVehicleTag()}
                     </div>
+                    <div className='col-1'>
+                        {this.getState()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getYear()}
+                    </div>
+                    <div className='col-3'>
+                        {this.getVIN()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getStolen()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getRecovered()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getSuspects()}
+                    </div>
+                </div>
+
+                <div className='unitGap'></div>
+
+                <div className="row">
+                    <div className='col-1'/>
                     <div className='col-2'>
                         <label>Make</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-2'>
                         <label>Model</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-2'>
                         <label>Style</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-2'>
                         <label>Color</label>
-                        {this.getBlank()}
                     </div>
                 </div>
                 <div className="row">
+                    <div className='col-1'/>
+                    <div className='col-2'>
+                        {this.getMake()}
+                    </div>
+                    <div className='col-2'>
+                        {this.getModel()}
+                    </div>
+                    <div className='col-2'>
+                        {this.getStyle()}
+                    </div>
+                    <div className='col-2'>
+                        {this.getColor()}
+                    </div>
+                </div>
+
+                <div className='unitGap'></div>
+
+                <div className="row">
+                    <div className='col-1'/>
                     <div className='col-2'>
                         <label>Motor Size</label>
-                        {this.getBlank()}
                     </div>
                     <div className='col-2'>
                         <label>Transmission</label>
-                        {this.getBlank()}
                     </div>
-                    <div className='col-8'>
+                    <div className='col-6'>
                         <label>Insured By</label>
-                        {this.getBlank()}
                     </div>
                 </div>
+                <div className="row">
+                    <div className='col-1'/>
+                    <div className='col-2'>
+                        {this.getMotor()}
+                    </div>
+                    <div className='col-2'>
+                        {this.getTransmission()}
+                    </div>
+                    <div className='col-6'>
+                        {this.getInsurance()}
+                    </div>
+                </div>
+
+                <div className='unitGap'></div>
+
             </div>
         )
     }
@@ -262,9 +170,7 @@ class Vehicle extends Component {
 
     render() {
         return(
-            <div>
-                {this.getVehicle()}
-            </div>
+            this.getVehicle()
             
         )
     }

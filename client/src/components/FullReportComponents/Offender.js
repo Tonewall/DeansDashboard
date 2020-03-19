@@ -166,17 +166,17 @@ class Offender extends Component {
                     <div className='labelContainer col-2'>
                         <label>Date of Birth</label>
                     </div>
-                    <div className='labelContainer col-1'>
-                        <label>Wanted</label>
+                    <div className='col-1'>
+                        <label>Height</label>
                     </div>
-                    <div className='labelContainer col-1'>
-                        <label>Warrant</label>
+                    <div className='col-1'>
+                        <label>Weight</label>
                     </div>
-                    <div className='labelContainer col-1'>
-                        <label>Arrest</label>
+                    <div className='col-1'>
+                        <label>Hair</label>
                     </div>
-                    <div className='labelContainer col-1'>
-                        <label>Arrested At Scene</label>
+                    <div className='col-1'>
+                        <label>Eyes</label>
                     </div>
                 </div>
                 <div className='row'>
@@ -196,40 +196,6 @@ class Offender extends Component {
                         {this.getDOB()}
                     </div>
                     <div className='col-1'>
-                        {this.getWanted()}
-                    </div>
-                    <div className='col-1'>
-                        {this.getWarrant()}
-                    </div>
-                    <div className='col-1'>
-                        {this.getArrest()}
-                    </div>
-                    <div className='col-1'>
-                        {this.getArrestAtScene()}
-                    </div>
-                </div>
-                <div className="row">
-                    <div className='col-6'>
-                        <label>Offender's Address</label>
-                    </div>
-                    <div className='col-1'>
-                        <label>Height</label>
-                    </div>
-                    <div className='col-1'>
-                        <label>Weight</label>
-                    </div>
-                    <div className='col-1'>
-                        <label>Hair</label>
-                    </div>
-                    <div className='col-1'>
-                        <label>Eyes</label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className='col-6'>
-                        {this.getAddress()}
-                    </div>
-                    <div className='col-1'>
                         {this.getHeight()}
                     </div>
                     <div className='col-1'>
@@ -240,6 +206,41 @@ class Offender extends Component {
                     </div>
                     <div className='col-1'>
                         {this.getEyes()}
+                    </div>
+                </div>
+                <div className='unitGap'></div>
+                <div className="row">
+                    <div className='col-6'>
+                        <label>Offender's Address</label>
+                    </div>
+                    <div className='labelContainer col-1'>
+                        <label>Wanted</label>
+                    </div>
+                    <div className='labelContainer col-1'>
+                        <label>Warrant</label>
+                    </div>
+                    <div className='labelContainer col-1'>
+                        <label>Arrest</label>
+                    </div>
+                    <div className='labelContainer col-2'>
+                        <label>Arrested At Scene</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className='col-6'>
+                        {this.getAddress()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getWanted()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getWarrant()}
+                    </div>
+                    <div className='col-1'>
+                        {this.getArrest()}
+                    </div>
+                    <div className='col-2'>
+                        {this.getArrestAtScene()}
                     </div>
                 </div>
             </div>

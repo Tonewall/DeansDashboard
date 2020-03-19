@@ -45,7 +45,6 @@ module.exports.filter = function(criteria) {
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
 
-
 /* Queries for instant search for specific incident number*/
 module.exports.search = function(incident_number) {
 
@@ -80,6 +79,7 @@ module.exports.getIncidentData = function(incident_number) {
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }
+
 module.exports.getIncidentBasic = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -110,6 +110,7 @@ module.exports.getIncidentBasic = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+
 module.exports.getComplainant = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -157,6 +158,7 @@ module.exports.getVictim = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+
 module.exports.getOffender = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -187,6 +189,7 @@ module.exports.getOffender = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+
 module.exports.getProperty = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -223,12 +226,14 @@ module.exports.getProperty = function(incident_number) {
         ,[RegistrationYear]\
         ,[ReportAsProperty]\
         ,[DateObtained]\
+        ,[tblLkpIBRProperty].[Description] as [PropertyTypeDesc]\
+        ,[tblLkpIBRPropertyLoss].[Description] as [ReportedAsDesc]\
     FROM [SS_GARecords_Incident].[dbo].[ARPProperty]\
+    LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRProperty] on ([ARPProperty].[TypeCode]=[tblLkpIBRProperty].[Code])\
+    LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRPropertyLoss] on ([ARPProperty].[Status]=[tblLkpIBRPropertyLoss].[Code])\
     where ([OCA]=\'%s\')\n\
     ', incident_number)
 }
-
-
 
 module.exports.get_narrative = function(incident_number) {
     return sprintf('\

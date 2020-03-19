@@ -77,5 +77,8 @@ input[type=checkbox] {
 }
 
 .unitGap {
-    height: 15px;
+    height: 6px;
+}
+.gap {
+  border: 1px dashed rgba(0,0,0,0.2);
 }

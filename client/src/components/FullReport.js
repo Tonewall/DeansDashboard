@@ -6,7 +6,7 @@ import IncidentTime from './FullReportComponents/IncidentTime'
 import Complainant from './FullReportComponents/Complainant'
 import Victim from './FullReportComponents/Victim'
 import Offender from './FullReportComponents/Offender'
-import Vehicle from './FullReportComponents/Vehicle'
+import Property from './FullReportComponents/Property'
 import Narrative from './FullReportComponents/Narrative'
 import Supplements from './FullReportComponents/Supplements'
 import {server} from '../config'
@@ -66,6 +66,12 @@ class FullReport extends Component {
     }
 
     render() {
+        const small_gap = <div className="unitGap"></div>
+        const gap = <div>
+                      <div className="unitGap"/>
+                      <hr className="gap"/>
+                      <div className="unitGap"/>
+                    </div>
         return(
             this.state.permission_check_running ? 
                 /*<div style={{display: 'flex', lineHeight:'20px', fontSize:'20px', padding: '30px'}}>
@@ -93,23 +99,23 @@ class FullReport extends Component {
                                             <b>{this.getCaseNumber()}</b>
                                         </div>
                                     </div>
-                                    <div className="unitGap"/>
+                                    {small_gap}
                                     <Incident incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {small_gap}
                                     <IncidentLocation incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {small_gap}
                                     <IncidentTime incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {small_gap}
                                     <Complainant incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {gap}
                                     <Victim incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {gap}
                                     <Offender incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
-                                    <Vehicle incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {gap}
+                                    <Property incidentNumber={this.props.match.params.incidentNumber}/>
+                                    {gap}
                                     <Narrative incidentNumber={this.props.match.params.incidentNumber}/>
-                                    <div className="unitGap"/>
+                                    {gap}
                                     <Supplements incidentNumber={this.props.match.params.incidentNumber}/>
                                 </div>
                             </div>

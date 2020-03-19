@@ -149,6 +149,7 @@ class Victim extends Component {
                         {this.getWorkPhone()}
                     </div>
                 </div>
+                <div className='unitGap'></div>
                 <div className="row">
                     <div className='labelContainer col-6'>
                         <label>Address</label>
