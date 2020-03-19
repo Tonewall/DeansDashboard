@@ -8,7 +8,7 @@ app.use(body_parser.json());    // json encoded
 app.use(body_parser.urlencoded({extended: true}));  // url encoded
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://localhost:3001");
+    res.header("Access-Control-Allow-Origin", "https://dashboard.police.gatech.edu");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
