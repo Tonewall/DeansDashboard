@@ -2,6 +2,7 @@ const app = require('express')();
 const body_parser = require('body-parser');
 
 var fs = require('fs');
+var https = require('https')
 
 const session = require('express-session')
 var sess = {
@@ -10,7 +11,7 @@ var sess = {
   saveUninitialized: true,
   cookie: {
     sameSite: 'none',
-    //secure: true  // required to allow 'none' sameSite
+    secure: true  // required to allow 'none' sameSite
   }, // allows session cookie to be delivered to xss client side
 }
 
@@ -31,5 +32,8 @@ app.use(function(req, res, next) {
 
 // add router
 require('./router')(app);
-
-app.listen(5001, '0.0.0.0')
+https.createServer({
+  key: fs.readFileSync('/etc/ssl/private/dashboard.key'),
+  cert: fs.readFileSync('/etc/ssl/certs/dashboard_police_gatech_edu_cert.cer')
+}, app)
+.listen(5000, '0.0.0.0')

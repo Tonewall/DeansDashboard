@@ -26,7 +26,7 @@
       - server/index.js --> .listen(YY, '0.0.0.0')
 
 - When deploying on dashboard.police.gatech.edu
-  - Suppose server is going to run under http protocol on port XX and exposed under https protocol on port YY.
+  - Suppose server is going to run on port XX.
   [Client]
   - cd /home/DeansDashboard
   - modify client/src/config.js
@@ -35,21 +35,12 @@
   - sudo systemctl restart nginx (--> starts webserver on nginx)
 	[Server]
 	- modify server/index_deploy.js
-		-  app.listen(XX, '0,0,0,0')
-	- sudo pm2 start server/index_deploy.js -- --deploy [gt-username] [password]
-	- modify /etc/nginx/sites-available/deans_dashboard_server
-		- listen YY default_server;
-		- listen [::]:YY default_server;
-		- location / {
-				proxy_pass http://localhost:XX;
-	- sudo systemctl restart nginx
+		-  listen(XX, '0,0,0,0')
+	- sudo node server/index_deploy.js --deploy [gt-username] [password]
 
 
 - Extras
     - Enable service worker for performance(but only on deployment)
 
 - Concerns
-    - Chomre udpate will block Cookies with "sameSite'none' unsecure" session.
-    - Since our REST server is running under http behind nginx, secure session cannot be transferred.
-    - In order to run REST server under https without the aid of nginx, dashboard.key should be directly accessible.
-    - But this will incur security issue.
+    - REST server is not failure resistance
