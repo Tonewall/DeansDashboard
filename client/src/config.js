@@ -1,1 +1,1 @@
-module.exports.server = 'https://dashboard.police.gatech.edu:5000'
+module.exports.server = 'https://gtpd-columbo.police.gatech.edu:6001'

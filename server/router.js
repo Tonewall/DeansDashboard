@@ -10,6 +10,9 @@ var fs = require('fs');
 
 // Make verified user list
 var authorized_users = fs.readFileSync('./AuthorizedUsers').toString().split("\n");
+authorized_users = authorized_users.map((str)=>str.trim())
+console.log('authorized users:')
+console.log(authorized_users)
 
 // Contains methods for generating common query.
 const query_factory = require("./query_factory");
@@ -51,6 +54,13 @@ function db_query(query_string, next) {
 
 // Router
 function add_router(app) {
+
+    var session_checker = function (req, res, next) {
+        console.log('2')
+        next()
+      }
+      
+    app.use(session_checker)
 
     app.get('/verify_user', function(req, res) {
       var sess = req.session
