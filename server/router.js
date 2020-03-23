@@ -56,9 +56,8 @@ function db_query(query_string, next) {
 function add_router(app) {
 
     var session_checker = function (req, res, next) {
-        console.log('2')
-        next()
-      }
+      next()
+    }
       
     app.use(session_checker)
 
