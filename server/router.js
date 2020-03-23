@@ -56,14 +56,36 @@ function db_query(query_string, next) {
 function add_router(app) {
 
     var session_checker = function (req, res, next) {
-      next()
+      if(req.originalUrl=='/verify_user'||req.originalUrl=='/validate_ticket')
+      {
+        // if it's user verifyting or ticket validating, pass.
+        next()
+      }
+      else
+      {
+        var sess = req.session
+        if(!sess.authorized)
+        {
+          // if it's db access but the user is not authorized, deny.
+          res.send('Not authorized.')
+        }
+        else
+        {
+          // good to go.
+          next();
+        }
+      }
     }
       
     app.use(session_checker)
 
     app.get('/verify_user', function(req, res) {
       var sess = req.session
-      if(!sess.username)
+      if(sess.authorized)
+      {
+        res.json({authorized: true, logged_in: true}) 
+      }
+      else if(!sess.username)
       {
         // no log in info in the session
         res.json({authorized: false, logged_in: false})
@@ -74,6 +96,7 @@ function add_router(app) {
         if(authorized_users.indexOf(sess.username)!=-1)
         {
           // one of authorized users
+          sess.authorized = true;
           res.json({authorized: true, logged_in: true})
         }
         else
