@@ -3,6 +3,8 @@ const sql = require("mssql");
 var config = require('./db_config')
 const read = require('read')
 const { exec } = require('child_process')
+var https = require('https')
+var parseString = require('xml2js').parseString;
 
 
 // Contains methods for generating common query.
@@ -45,6 +47,62 @@ function db_query(query_string, next) {
 
 // Router
 function add_router(app) {
+
+    app.get('/verify_user', function(req, res) {
+      var sess = req.session
+      if(!sess.username)
+      {
+        // no log in info in the session
+        res.json({authorized: false, logged_in: false})
+      }
+      else
+      {
+        // user logged in. check authrization
+        // TODO: IMPLEMENT (right now, just gave authorization to everyone)
+        res.json({authorized: true, logged_in: true})
+      }
+    })
+
+    app.post('/validate_ticket', function(req, res) {
+        var sess=req.session
+        serviceValidate = 'https://login.gatech.edu/cas/serviceValidate?service='+req.body.service+'&ticket='+req.body.ticket;
+
+        https.get(serviceValidate, function(validateResponse){
+          var body = '';
+          validateResponse.on('data', function(chunk) {
+            body += chunk;
+          });
+          validateResponse.on('end', function(){
+            //handling the response
+            parseString(body, function (err, result) {
+              if(result !== undefined && result['cas:serviceResponse'] !== undefined)
+              {
+                if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
+                {
+                  var sucessResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
+                  sess.username = sucessResult[0]['cas:user'][0];
+                  res.json({success: true});
+                }
+                else
+                {
+                  //Login Failed Try Again: May cause infinite browser redirect loop
+                  res.json({success: false});
+                }
+                console.dir(JSON.stringify(result));
+              }
+              else
+              {
+                res.json({success: false});
+              }
+            });
+          });
+        }).on('error', function(e) {
+          res.send('HTTP Validation error');
+        });
+
+
+    })
+
     app.get('/showall', function (req, res) {
         queryString = query_factory.showall();
         db_query(queryString, (err, result) => {

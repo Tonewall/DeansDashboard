@@ -9,3 +9,6 @@
             - [root]/server/index.js : console.log("\n\n[Server] Starting server on port XX")
             - [root]/server/index.js : app.listen(XX, '0.0.0.0');
             - [root]/client/src/config.js : module.exports.server = 'http://localhost:XX'
+
+- Extras
+    - Enable service worker for performance(but only on deployment)
