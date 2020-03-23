@@ -7,7 +7,7 @@ class Narrative extends Component {
     };
 
     componentDidMount(){
-        fetch(server+'/getNarrative/'+this.props.incidentNumber)
+        fetch(server+'/getNarrative/'+this.props.incidentNumber, {credentials: 'include'})
             .then(results => {
                 results.json().then(data => {
                     this.setState({narrative: data[0].Narrative, officer: data[0].ReportingOfficerName})

@@ -17,7 +17,7 @@ class Complainant extends Component {
     }
 
     getIncidentData() {
-        fetch(server+'/getComplainant/'+this.state.incidentNumber)
+        fetch(server+'/getComplainant/'+this.state.incidentNumber, {credentials: 'include'})
                 .then(results => {
                     results.json().then(data => {
                         this.setState({complainant: data})

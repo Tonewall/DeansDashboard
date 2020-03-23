@@ -15,7 +15,7 @@ class IncidentTime extends Component {
             })
     }
     getIncidentData() {
-        fetch(server+'/getIncidentBasic/'+this.state.incidentNumber)
+        fetch(server+'/getIncidentBasic/'+this.state.incidentNumber, {credentials: 'include'})
                 .then(results => {
                     results.json().then(data => {
                         this.setState({data: data})

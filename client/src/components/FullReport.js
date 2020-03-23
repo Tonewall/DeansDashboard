@@ -24,7 +24,7 @@ class FullReport extends Component {
 
     componentDidMount() {
         this.setState({incidentNumber: this.props.match.params.incidentNumber})
-        fetch(server+'/check_permission/'+this.props.match.params.incidentNumber)
+        fetch(server+'/check_permission/'+this.props.match.params.incidentNumber, {credentials: 'include'})
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);

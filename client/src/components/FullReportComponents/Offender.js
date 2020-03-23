@@ -17,7 +17,7 @@ class Offender extends Component {
     }
 
     getIncidentData() {
-        fetch(server+'/getOffender/'+this.state.incidentNumber)
+        fetch(server+'/getOffender/'+this.state.incidentNumber, {credentials: 'include'})
                 .then(results => {
                     results.json().then(data => {
                         this.setState({offender: data})

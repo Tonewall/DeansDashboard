@@ -7,7 +7,7 @@ class Supplements extends Component {
     };
 
     componentDidMount(){
-        fetch(server+'/getSupplements/'+this.props.incidentNumber)
+        fetch(server+'/getSupplements/'+this.props.incidentNumber, {credentials: 'include'})
             .then(results => {
                 results.json().then(data => {
                     this.setState({supplements: data})

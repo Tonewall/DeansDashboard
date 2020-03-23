@@ -91,7 +91,8 @@ class Data extends Component {
                 {
                     headers:{'Content-Type' : 'application/json'},
                     method: 'post',
-                    body: JSON.stringify(this.props.filterState)
+                    body: JSON.stringify(this.props.filterState),
+                    credentials: 'include'
                 }
             )
             .then(function(response) {
@@ -108,7 +109,7 @@ class Data extends Component {
         }
         else if(this.props.instantSearchState)
         {
-            fetch(server+'/search/'+this.props.instantSearchState.incidentNumber)
+            fetch(server+'/search/'+this.props.instantSearchState.incidentNumber, {credentials: 'include'})
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
@@ -123,7 +124,7 @@ class Data extends Component {
         }
         else
         {
-            fetch(server+'/showall')
+            fetch(server+'/showall', {credentials: 'include'})
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
