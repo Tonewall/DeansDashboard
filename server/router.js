@@ -258,23 +258,30 @@ config_db = async (next) => {
     var error_reason = null;
     var conn;
 
-    username_resolver = new Promise(async (res, err) => {
-        read({ prompt: 'GT username: ' }, (err, result, def) => {
-            res(result)
+    if(process.argv[2] && process.argv[2]=='--deploy')
+	{
+		username = process.argv[3]
+		password = process.argv[4]
+	}
+	else
+    {
+        username_resolver = new Promise(async (res, err) => {
+            read({ prompt: 'GT username: ' }, (err, result, def) => {
+                res(result)
+            })
         })
-    })
-    username = await username_resolver
-
-    password_resolver = new Promise(async (res, err) => {
-        read({ prompt: 'Password: ', silent: true, replace: '*' }, (err, result, def) => {
-            res(result)
+        username = await username_resolver
+  
+        password_resolver = new Promise(async (res, err) => {
+            read({ prompt: 'Password: ', silent: true, replace: '*' }, (err, result, def) => {
+                res(result)
+            })
         })
-    })
-    password = await password_resolver
-
+        password = await password_resolver
+    }
     config.user = username;
     config.password = password;
-
+  
     db_connector = new Promise(async (res, err) => {
         conn = new sql.ConnectionPool(config)
         conn.connect().then((conn) => {
@@ -300,7 +307,7 @@ module.exports = function (app) {
                 add_router(app);
                 console.log('\x1b[0m', "[Server] Now attaching router...\n")
                 console.log('[Server] Router successfully attached.\n');
-                if(!process.argv[2] || process.argv[2]!='--server-only')
+                if(!process.argv[2] || !(process.argv[2]=='--server-only'||process.argv[2]=='--deploy'))
                 {
                     console.log("[Client] Now starting the client");
                     client = exec('npm run client')
