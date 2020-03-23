@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import {server} from '../../config'
 
 class Incident extends Component {
     state = {
@@ -17,7 +17,7 @@ class Incident extends Component {
     }
 
     getIncidentData() {
-        fetch('/getIncidentData/'+this.state.incidentNumber)
+        fetch(server+'/getIncidentData/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
                         this.setState({incident: data})
@@ -44,7 +44,7 @@ class Incident extends Component {
     getIncidentCount() {
         if(this.state.incident){
             var incidentCounts = this.state.incident.map((incident, index) =>
-                <input readOnly key={index} value={" "+ incident.Counts} style={{ width: "100%" }}/>
+                <input readOnly key={index} value={(incident.Counts === null) ? "" : " "+ incident.Counts} style={{ width: "100%" }}/>
             ) 
             return incidentCounts
         } else {
@@ -76,7 +76,7 @@ class Incident extends Component {
         return(
             <div className='row'>
                 <div className='col-8'>
-                    <label>Incident Type</label>
+                    <label>Offense</label>
                     {this.getIncidentType()}
                         
                 </div>
@@ -85,7 +85,7 @@ class Incident extends Component {
                     {this.getIncidentCount()}
                 </div>
                 <div className='col-3'>
-                    <label>Incident Code</label>
+                    <label>Code</label>
                     {this.getIncidentCode()}
                 </div>
             </div>

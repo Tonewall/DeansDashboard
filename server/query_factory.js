@@ -10,6 +10,7 @@ module.exports.showall = function(criteria=null, max_num_reports=-1) {
             , [ARPLandingNew].[StatusDescription] as [Status]\n\
             , [ARPLandingNew].[Description]\n\
             , [ARPLandingNew].[Location]\n\
+            , [ARPLandingNew].[Juvenile]\n\
         FROM [SS_GARecords_Incident].[dbo].[ARPLandingNew]\n'+
         (criteria==null ? '' : ('WHERE ' + criteria + '\n'))+
         'ORDER BY [Case] DESC';
@@ -44,7 +45,6 @@ module.exports.filter = function(criteria) {
     return this.showall(criteria = criteria_script.length==0 ? null : criteria_script)
 }
 
-
 /* Queries for instant search for specific incident number*/
 module.exports.search = function(incident_number) {
 
@@ -53,239 +53,13 @@ module.exports.search = function(incident_number) {
     return this.showall(criteria = criteria_script)
 }
 
-
-module.exports.get_incident_basic = function(incident_number) {
+module.exports.check_permission = function(incident_number) {
     return sprintf('\
-        SELECT [OCA Number]\
-            , [Case Disposition]\
-            , [Unit]\
-            , [Officer Name]\
-            , [Report Date]\
-            , [From Date]\
-            , [From Time]\
-            , [To Date]\
-            , [To Time]\
-            , [Avg Date]\
-            , [Avg Time]\
-            , [DTEdit]\
-            , [Shift]\
-            , [Video]\
-            , [VClear]\
-            , [LType]\
-            , [Location Code]\
-            , [Patrol Zone]\
-            , [Location Landmark]\
-            , [Address]\
-            , [Intersection]\
-            , [Apt-Rm-Ste]\
-            , [Alcohol]\
-            , [Drug]\
-            , [Weapon]\
-            , [Offense]\
-            , [NIBRSOffense]\
-            , [Premises]\
-            , [Offn From]\
-            , [UCR Changed]\
-            , [PType]\
-            , [UCInc+]\
-            , [CSR]\
-            , [Clery]\
-            , [Clery+]\
-            , [CSArr]\
-            , [8399]\
-            , [CSRef]\
-            , [CSDVS]\
-            , [GTtype]\
-            , [GTstatus]\
-            , [EMS]\
-            , [Injured]\
-            , [Suicide]\
-            , [1013]\
-            , [RO]\n\
-        FROM [CrimeAnalytics].[dbo].[Incident Offenses-GTPD+APD] left join [CrimeAnalytics].[dbo].[Times] on ([Incident Offenses-GTPD+APD].[OCA Number] = [Times].[CASE_NUMBER])\n\
-        WHERE ([OCA Number]=\'%\s\')\
-    ', incident_number)
-}
-
-
-module.exports.get_incident_basic_other = function(incident_number) {
-    return sprintf('\
-        SELECT [OCA Number]\
-            , [AssignedToUnit]\
-            , [ReportingOfficerName]\
-            , [Report Date]\
-            , [From Date]\
-            , [From Time]\
-            , [To Date]\
-            , [To Time]\
-            , [Avg Date]\
-            , [Avg Time]\
-            , [DTEdit]\
-            , [Shift]\
-            , [Video]\
-            , [VClear]\
-            , [LType]\
-            , [Location Code]\
-            , [Patrol Zone]\
-            , [Location Landmark]\
-            , [Address]\
-            , [Intersection]\
-            , [Apt-Rm-Ste]\
-            , [Alcohol]\
-            , [Drug]\
-            , [Weapon]\
-            , [Offense]\
-            , [NIBRSOffense]\
-            , [Premises]\
-            , [Offn From]\
-            , [UCR Changed]\
-            , [PType]\
-            , [UCInc+]\
-            , [CSR]\
-            , [Clery]\
-            , [Clery+]\
-            , [CSArr]\
-            , [8399]\
-            , [CSRef]\
-            , [CSDVS]\
-            , [GTtype]\
-            , [GTstatus]\
-            , [EMS]\
-            , [Injured]\
-            , [Suicide]\
-            , [1013]\
-            , [RO]\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncident] \
-        left join [SS_GARecords_Incident].[dbo].[tblIncidentDrug] on ([tblIncident].[IncidentNumber] = [tblIncidentDrug].[IncidentNumber])\
-        left join [SS_GARecords_Incident].[dbo].[tblIncidentAssignment] on ([tblIncident].[IncidentNumber] = [tblIncidentAssignment].[IncidentNumber])\n\
-        WHERE ([OCA Number]=\'%\s\')\
-    ', incident_number)
-}
-
-module.exports.get_MO = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , [MO]\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentMO]\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-        ORDER BY [SequenceNumber] ASC\
-        ', incident_number)
-}
-
-module.exports.get_offense_description = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , [OffenseCode]\
-            , [AttemptComplete]\
-            , [OffenseDescription]\
-            , [Counts]\
-            , [Statute]\
-            , [OffenseType]     /* Felony or Misdemeanor */\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentOffense]\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-        ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
-}
-
-module.exports.get_narrative_GTPD = function(incident_number) {
-    return sprintf('\
-        SELECT [Narrative]\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-    ', incident_number)
-}
-
-module.exports.get_supplements = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , [DateEntered]\
-            , [OfficerName]\
-            , [Narrative] as Text\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentSupplement]\n\
-        WHERE ([IncidentNumber]=\'%s\' and [Narrative] is not null)\n\
-        ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
-}
-
-module.exports.get_offender_info = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , CONCAT([LastName], \', \', [FirstName], \' \', [MiddleName]) AS OffenderName\
-            , [Race]\
-            , [Sex]\
-            , [DateOfBirth]\
-            , [Age]\
-            , [Juvenile]\
-            , [Wanted]\
-            , [DriverLicenseNumber]\
-            , [Height]\
-            , [Weight]\
-            , [HairColor]\
-            , [HomeAddress]\
-            , [HomeCity]\
-            , [Warrant]\
-            , [Arrest]\
-            , [SSN]\
-            , [Occupation]\
-            , [Employer]\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentOffender]\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-        ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
-}
-
-module.exports.get_arrest_info = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , CONCAT([LastName], \', \', [FirstName], \' \', [MiddleName]) AS OffenderName\
-            , [Race]\
-            , [Sex]\
-            , [ArrestAddress]\
-            , [ArrestDate]\
-            , [ArrestTime]\
-            , [DateOfBirth]\
-            , [Age]\
-            , [Height]\
-            , [Weight]\
-            , [HomeAddress]\
-            , [HomeCity]\
-            , [ArrestingOfficerName] AS ArrestOfficer\
-            , [DateOfOffense] AS OffenseDate\
-            , [Juvenile]\
-            , [HairColor]\
-            , [DriverLicenseNumber]\
-            , [SSN]\
-            , [DrugUse]\
-            , [Occupation]\
-            , [Employer]\n\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentArrest]\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-        ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
-}
-
-module.exports.get_property = function(incident_number) {
-    return sprintf('\
-        SELECT [SequenceNumber]\
-            , [Description] AS PropertyType\
-            , [Status]\
-            , [ItemDescription]\
-            , [Make]\
-            , [Model]\
-            , [VehicleYear]\
-            , [VehicleType]\
-            , [VehicleStyle]\
-            , [LicensePlateState]\
-            , [LicensePlateNumber]\
-            , [ItemValue]\
-            , [Recovered]\
-            , [ObtainedAddress]\
-            , [ObtainedCity]\
-        FROM [SS_GARecords_Incident].[dbo].[tblIncidentProperty] left join [SS_GARecords_Config].[dbo].[tblLkpIBRProperty] \
-                on ([tblIncidentProperty].[TypeCode] = [tblLkpIBRProperty].[Code])\n\
-        WHERE ([IncidentNumber]=\'%s\')\n\
-        ORDER BY [SequenceNumber] ASC\
-    ', incident_number)
+        SELECT distinct \n\
+        CONVERT(varchar, [ARPLandingNew].[DateApproved], 23) as [Approved Date]\n\
+        , [ARPLandingNew].[Juvenile]\n\
+        FROM [SS_GARecords_Incident].[dbo].[ARPLandingNew]\n'
+        + sprintf('WHERE [ARPLandingNew].[OCA] = \'%s\'', incident_number))
 }
 
 module.exports.getIncidentData = function(incident_number) {
@@ -305,6 +79,7 @@ module.exports.getIncidentData = function(incident_number) {
         ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }
+
 module.exports.getIncidentBasic = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -335,6 +110,7 @@ module.exports.getIncidentBasic = function(incident_number) {
     WHERE ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+
 module.exports.getComplainant = function(incident_number) {
     return sprintf('\
         SELECT [OCA]\
@@ -380,5 +156,104 @@ module.exports.getVictim = function(incident_number) {
         ,[Occupation]\
     FROM [SS_GARecords_Incident].[dbo].[ARPVictim]\
     WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
+
+module.exports.getOffender = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[Age]\
+        ,[Race]\
+        ,[Sex]\
+        ,[FirstName]\
+        ,[LastName]\
+        ,[HomeAddress]\
+        ,[City]\
+        ,[State]\
+        ,[Zip]\
+        ,[DOB]\
+        ,[Height]\
+        ,[Weight]\
+        ,[Hair]\
+        ,[Eyes]\
+        ,[OffenseDate]\
+        ,[ArrestScene]\
+        ,[Wanted]\
+        ,[Warrant]\
+        ,[Arrest]\
+        ,[CensusTract]\
+        ,[PrimaryKey]\
+        ,[MiddleName]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPOffender]\
+    WHERE ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
+
+module.exports.getProperty = function(incident_number) {
+    return sprintf('\
+        SELECT [OCA]\
+        ,[SequenceNumber]\
+        ,[VehicleID]\
+        ,[TypeCode]\
+        ,[Status]\
+        ,[ItemValue]\
+        ,[Vehicle]\
+        ,[ItemCategory]\
+        ,[Quantity]\
+        ,[ItemDescription]\
+        ,[Make]\
+        ,[Model]\
+        ,[SerialNumber]\
+        ,[PrimaryColor]\
+        ,[VehicleStyle]\
+        ,[VehicleYear]\
+        ,[Tag]\
+        ,[TagST]\
+        ,[VIN]\
+        ,[Owner]\
+        ,[Recovered]\
+        ,[InsuranceCompany]\
+        ,[IdentificationType]\
+        ,[MotorSize]\
+        ,[Transmission]\
+        ,[SuspectsVehicle]\
+        ,[RecoveredVehicle]\
+        ,[StolenVehicle]\
+        ,[RecoveredValue]\
+        ,[RecoveredQuantity]\
+        ,[RecoveredDescription]\
+        ,[RegistrationYear]\
+        ,[ReportAsProperty]\
+        ,[DateObtained]\
+        ,[tblLkpIBRProperty].[Description] as [PropertyTypeDesc]\
+        ,[tblLkpIBRPropertyLoss].[Description] as [ReportedAsDesc]\
+    FROM [SS_GARecords_Incident].[dbo].[ARPProperty]\
+    LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRProperty] on ([ARPProperty].[TypeCode]=[tblLkpIBRProperty].[Code])\
+    LEFT JOIN [SS_GARecords_Config].[dbo].[tblLkpIBRPropertyLoss] on ([ARPProperty].[Status]=[tblLkpIBRPropertyLoss].[Code])\
+    where ([OCA]=\'%s\')\n\
+    ', incident_number)
+}
+
+module.exports.get_narrative = function(incident_number) {
+    return sprintf('\
+        SELECT [Narrative]\n\
+            , [ReportingOfficerName]\n\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncident]\n\
+        WHERE ([IncidentNumber]=\'%s\')\n\
+    ', incident_number)
+}
+
+module.exports.get_supplements = function(incident_number) {
+    return sprintf('\
+        SELECT [SequenceNumber]\n\
+            , CONVERT(varchar, [SupplementDate], 23) as [Date]\n\
+            , CONVERT(varchar, [SupplementTime], 8) as [Time]\n\
+            , [SupplementType]\n\
+            , [OfficerName]\n\
+            , [Narrative]\n\
+        FROM [SS_GARecords_Incident].[dbo].[tblIncidentSupplement]\n\
+        WHERE ([IncidentNumber]=\'%s\' and [Narrative] is not null)\n\
+        ORDER BY [SequenceNumber] ASC\
     ', incident_number)
 }

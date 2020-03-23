@@ -3,7 +3,16 @@ const sql = require("mssql");
 var config = require('./db_config')
 const read = require('read')
 const { exec } = require('child_process')
+const https = require('https')
+const parseString = require('xml2js').parseString;
+var fs = require('fs');
 
+
+// Make verified user list
+var authorized_users = fs.readFileSync('./AuthorizedUsers').toString().split("\n");
+authorized_users = authorized_users.map((str)=>str.trim())
+console.log('authorized users:')
+console.log(authorized_users)
 
 // Contains methods for generating common query.
 const query_factory = require("./query_factory");
@@ -45,6 +54,77 @@ function db_query(query_string, next) {
 
 // Router
 function add_router(app) {
+
+    var session_checker = function (req, res, next) {
+        console.log('2')
+        next()
+      }
+      
+    app.use(session_checker)
+
+    app.get('/verify_user', function(req, res) {
+      var sess = req.session
+      if(!sess.username)
+      {
+        // no log in info in the session
+        res.json({authorized: false, logged_in: false})
+      }
+      else
+      {
+        // user logged in. check authrization
+        if(authorized_users.indexOf(sess.username)!=-1)
+        {
+          // one of authorized users
+          res.json({authorized: true, logged_in: true})
+        }
+        else
+        {
+          // one of authorized users
+          res.json({authorized: false, logged_in: true})
+        }
+        
+      }
+    })
+
+    app.post('/validate_ticket', function(req, res) {
+        var sess=req.session
+        serviceValidate = 'https://login.gatech.edu/cas/serviceValidate?service='+req.body.service+'&ticket='+req.body.ticket;
+
+        https.get(serviceValidate, function(validateResponse){
+          var body = '';
+          validateResponse.on('data', function(chunk) {
+            body += chunk;
+          });
+          validateResponse.on('end', function(){
+            //handling the response
+            parseString(body, function (err, result) {
+              if(result !== undefined && result['cas:serviceResponse'] !== undefined)
+              {
+                if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
+                {
+                  var sucessResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
+                  sess.username = sucessResult[0]['cas:user'][0];
+                  res.json({success: true});
+                }
+                else
+                {
+                  //Login Failed Try Again: May cause infinite browser redirect loop
+                  res.json({success: false});
+                }
+              }
+              else
+              {
+                res.json({success: false});
+              }
+            });
+          });
+        }).on('error', function(e) {
+          res.send('HTTP Validation error');
+        });
+
+
+    })
+
     app.get('/showall', function (req, res) {
         queryString = query_factory.showall();
         db_query(queryString, (err, result) => {
@@ -74,177 +154,13 @@ function add_router(app) {
         });
     });
     
-    /*
-        Integrates basic_info with offense_desc, narratives, offender_info, arrest_info, property_info
-        Usage example: 
-            - Basic info: incident_info['Case Disposition'], incident_info['OCA Number']
-            - Offense Description: incident_info['Offense Description'] (array)
-            - Narratives: incident_info['Narratives'] (array)
-            - Offender Information: incident_info['Offender Info'] (array)
-            - Arrest Information: incident_info['Arrest Info'] (array)
-            - Property Information: incident_info['Property Info'] (array)
-    */
-    app.get('/incident-number-integrated/:incident_number', function(req, res)
-    {
-        (async ()=> 
-        {
-            // resolve basic info
-            basic_info_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_incident_basic(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result[0] != null)
-                            res(result[0]);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info = await basic_info_resolver.catch(err=>res.status(400).send(err))
-            if(incident_info == null)   return
-
-            // resolve MO
-            MO_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_MO(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['MO'] = await MO_resolver.catch(err=>console.log('Couldn\'t retrieve MO, but will not throw an error.'))
-            
-            // resolve offense_desc
-            offense_desc_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_offense_description(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['Offense Description'] = await offense_desc_resolver.catch(err=>console.log('Couldn\'t retrieve offense description, but will not throw an error.'))
-            
-            // resolve narratives
-            narratives_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_narratives(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['Narratives'] = await narratives_resolver.catch(err=>console.log('Couldn\'t retrieve narratives, but will not throw an error.'))
-
-            // resolve offender_info
-            offender_info_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_offender_info(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['Offender Info'] = await offender_info_resolver.catch(err=>console.log('Couldn\'t retrieve offender information, but will not throw an error.'))
-
-            // resolve arrest_info
-            arrest_info_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_arrest_info(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['Arrest Info'] = await arrest_info_resolver.catch(err=>console.log('Couldn\'t retrieve arrest information, but will not throw an error.'))
-
-            // resolve property_info
-            property_info_resolver = new Promise(async (res, rej) => {
-                query = query_factory.get_property(req.params.incident_number)
-                db_query(query, (err, result) => {
-                    if (!err) {
-                        if (result != null)
-                            res(result);
-                        else
-                            rej('No data found');
-                    }
-                    else rej(err);
-                });
-            });
-            incident_info['Property Info'] = await property_info_resolver.catch(err=>console.log('Couldn\'t retrieve property information, but will not throw an error.'))
-
-            res.send(incident_info);
-        })();
-    });
-
-    app.get('/incident-number-basic/:incident_number', function (req, res) {
-        query = query_factory.get_incident_basic(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result[0] != null) {
-                    res.send(result[0]);
-                }
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/MO/:incident_number', function (req, res) {
-        query = query_factory.get_MO(req.params.incident_number)
+    app.get('/check_permission/:incident_number', function(req, res) {
+        query = query_factory.check_permission(req.params.incident_number)
         db_query(query, (err, result) => {
             if (!err) {
                 if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/offense-description/:incident_number', function (req, res) {
-        query = query_factory.get_offense_description(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/narrative_APD/:incident_number', function (req, res) {
-        query = query_factory.get_narrative_APD(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null && result[0] != null)
                 {
-                    res.send(result[0]);
+                    res.send(result);
                 }
                 else
                     res.status(400).send('No data found');
@@ -253,72 +169,6 @@ function add_router(app) {
         });
     });
 
-    app.get('/narrative_GTPD/:incident_number', function (req, res) {
-        query = query_factory.get_narrative_GTPD(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null && result[0] != null)
-                {
-                    res.send(result[0]);
-                }
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/supplements/:incident_number', function (req, res) {
-        query = query_factory.get_supplements(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/offender-info/:incident_number', function (req, res) {
-        query = query_factory.get_offender_info(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/arrest-info/:incident_number', function (req, res) {
-        query = query_factory.get_arrest_info(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
-
-    app.get('/property-info/:incident_number', function (req, res) {
-        query = query_factory.get_property(req.params.incident_number)
-        db_query(query, (err, result) => {
-            if (!err) {
-                if (result != null)
-                    res.send(result);
-                else
-                    res.status(400).send('No data found');
-            }
-            else res.status(400).send(err);
-        });
-    });
     app.get('/getIncidentData/:incident_number', function (req, res) {
         query = query_factory.getIncidentData(req.params.incident_number)
         db_query(query, (err, result) => {
@@ -367,7 +217,58 @@ function add_router(app) {
             else res.status(400).send(err);
         });
     });
+    app.get('/getOffender/:incident_number', function (req, res) {
+        query = query_factory.getOffender(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+    app.get('/getProperty/:incident_number', function (req, res) {
+        query = query_factory.getProperty(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
+
+
+
+    app.get('/getNarrative/:incident_number', function (req, res) {
+        query = query_factory.get_narrative(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
     
+    app.get('/getSupplements/:incident_number', function (req, res) {
+        query = query_factory.get_supplements(req.params.incident_number)
+        db_query(query, (err, result) => {
+            if (!err) {
+                if (result != null)
+                    res.send(result);
+                else
+                    res.status(400).send('No data found');
+            }
+            else res.status(400).send(err);
+        });
+    });
 }
 
 
@@ -377,23 +278,30 @@ config_db = async (next) => {
     var error_reason = null;
     var conn;
 
-    username_resolver = new Promise(async (res, err) => {
-        read({ prompt: 'GT username: ' }, (err, result, def) => {
-            res(result)
+    if(process.argv[2] && process.argv[2]=='--deploy')
+	{
+		username = process.argv[3]
+		password = process.argv[4]
+	}
+	else
+    {
+        username_resolver = new Promise(async (res, err) => {
+            read({ prompt: 'GT username: ' }, (err, result, def) => {
+                res(result)
+            })
         })
-    })
-    username = await username_resolver
-
-    password_resolver = new Promise(async (res, err) => {
-        read({ prompt: 'Password: ', silent: true, replace: '*' }, (err, result, def) => {
-            res(result)
+        username = await username_resolver
+  
+        password_resolver = new Promise(async (res, err) => {
+            read({ prompt: 'Password: ', silent: true, replace: '*' }, (err, result, def) => {
+                res(result)
+            })
         })
-    })
-    password = await password_resolver
-
+        password = await password_resolver
+    }
     config.user = username;
     config.password = password;
-
+  
     db_connector = new Promise(async (res, err) => {
         conn = new sql.ConnectionPool(config)
         conn.connect().then((conn) => {
@@ -419,9 +327,12 @@ module.exports = function (app) {
                 add_router(app);
                 console.log('\x1b[0m', "[Server] Now attaching router...\n")
                 console.log('[Server] Router successfully attached.\n');
-                console.log("[Client] Now starting the client");
-                client = exec('npm run client')
-                client.stdout.on('data', (data) => { console.log('[Client] : ' + data) });
+                if(!process.argv[2] || !(process.argv[2]=='--server-only'||process.argv[2]=='--deploy'))
+                {
+                    console.log("[Client] Now starting the client");
+                    client = exec('npm run client')
+                    client.stdout.on('data', (data) => { console.log('[Client] : ' + data) });
+                }
             }
             else {
                 console.log('\x1b[31m', "[Server] Database configuration failed!\n" + error_reason + '\n');

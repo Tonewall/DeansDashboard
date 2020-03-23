@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import "./Data.css";
 import { MDBDataTable } from 'mdbreact';
-import { Link } from 'react-router-dom';
+import {NotificationManager} from 'react-notifications'
+import {server} from '../config'
 
 class Data extends Component {
 
@@ -33,7 +34,23 @@ class Data extends Component {
             var row = {}
             var incidentNumber = data[i]['Case']
             var link = "./full-report/"+incidentNumber
-            row['Case'] = <Link to={link} target="_blank">{incidentNumber}</Link>
+            
+            /* control full report access */
+                // eslint-disable-next-line
+            if(data[i]['Juvenile']==1)
+            {
+                // eslint-disable-next-line
+                row['Case'] = <a style={{color:'red', textDecoration:'underline'}} onClick={()=>{NotificationManager.error("", "Cannot access juvenile report", 1500)}}>{incidentNumber}</a>
+            }
+            else if(data[i]['Approved Date']==null)
+            {
+                // eslint-disable-next-line
+                row['Case'] = <a style={{color:'darkorange', textDecoration:'underline'}} onClick={()=>{NotificationManager.warning("", "Please wait for approval", 1500)}}>{incidentNumber}</a>
+            }
+            else
+            {
+                row['Case'] = <a href={link} target="_blank" style={{textDecoration:'underline'}}>{incidentNumber}</a>
+            }
             
             for(var j = 1; j < columns.length; j++) {
                 if(data[i][columns[j].field] == null || data[i][columns[j].field] === " "){ 
@@ -70,7 +87,7 @@ class Data extends Component {
         this.setState({loading: true});
         if(this.props.filterState)
         {
-            fetch('/filter',
+            fetch(server+'/filter',
                 {
                     headers:{'Content-Type' : 'application/json'},
                     method: 'post',
@@ -91,7 +108,7 @@ class Data extends Component {
         }
         else if(this.props.instantSearchState)
         {
-            fetch('/search/'+this.props.instantSearchState.incidentNumber)
+            fetch(server+'/search/'+this.props.instantSearchState.incidentNumber)
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);
@@ -106,7 +123,7 @@ class Data extends Component {
         }
         else
         {
-            fetch('/showall')
+            fetch(server+'/showall')
             .then(function(response) {
                 if(!response.ok) {
                     throw Error(response.statusText);

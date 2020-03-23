@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import {server} from '../../config.js'
 
 class Complainant extends Component {
     state = {
@@ -17,7 +17,7 @@ class Complainant extends Component {
     }
 
     getIncidentData() {
-        fetch('/getComplainant/'+this.state.incidentNumber)
+        fetch(server+'/getComplainant/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
                         this.setState({complainant: data})
@@ -30,7 +30,13 @@ class Complainant extends Component {
         if(this.state.complainant && this.state.complainant[0]){
             return(
                 <div>
-                    <input readOnly value={" " + this.state.complainant[0].FirstName + " " + this.state.complainant[0].LastName} style={{ width: "100%" }}/>
+                    <input 
+                    readOnly 
+                    value={
+                        " " + ((this.state.complainant[0].FirstName === null) ? "" : this.state.complainant[0].FirstName) + 
+                        " " + ((this.state.complainant[0].LastName === null) ? "" : this.state.complainant[0].LastName)
+                    } 
+                    style={{ width: "100%" }}/>
                 </div>
             )
         } else {
@@ -43,7 +49,7 @@ class Complainant extends Component {
 
     }
     getComplainantAddress() {
-        if(this.state.complainant && this.state.complainant[0]){
+        if(this.state.complainant && this.state.complainant[0] && this.state.complainant[0].HomeAddress){
             return(
                 <div>
                     <input readOnly value={" " + this.state.complainant[0].HomeAddress} style={{ width: "100%" }}/>
@@ -58,7 +64,7 @@ class Complainant extends Component {
         } 
     }
     getComplainantPhone() {
-        if(this.state.complainant && this.state.complainant[0]){
+        if(this.state.complainant && this.state.complainant[0] && this.state.complainant[0].Phone){
             return(
                 <div>
                     <input readOnly value={" " + this.state.complainant[0].Phone} style={{ width: "100%" }}/>
@@ -81,7 +87,6 @@ class Complainant extends Component {
                 <div className='col-3'>
                     <label>Complainant</label>
                     {this.getComplainantName()}
-                        
                 </div>
                 <div className='col-6'>
                     <label>Address</label>

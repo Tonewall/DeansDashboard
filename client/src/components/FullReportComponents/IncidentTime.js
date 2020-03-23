@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import {server} from '../../config.js'
 
 class IncidentTime extends Component {
     state = {
@@ -15,7 +15,7 @@ class IncidentTime extends Component {
             })
     }
     getIncidentData() {
-        fetch('/getIncidentBasic/'+this.state.incidentNumber)
+        fetch(server+'/getIncidentBasic/'+this.state.incidentNumber)
                 .then(results => {
                     results.json().then(data => {
                         this.setState({data: data})
@@ -81,12 +81,19 @@ class IncidentTime extends Component {
             <div>
                 <div className="row">
                     <div className='col-2'>
-                        <label>Incident From Date/Time</label>
+                        <label>From Date/Time</label>
+                        
+                    </div>
+                    <div className='col-2'>
+                        <label>To Date/Time</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className='col-2'>
                         {this.getIncidentFromDate()}
                         
                     </div>
                     <div className='col-2'>
-                        <label>Incident To Date/Time</label>
                         {this.getIncidentToDate()}
                     </div>
                 </div>
