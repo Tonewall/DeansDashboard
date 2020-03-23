@@ -3,8 +3,10 @@ const sql = require("mssql");
 var config = require('./db_config')
 const read = require('read')
 const { exec } = require('child_process')
-var https = require('https')
-var parseString = require('xml2js').parseString;
+const https = require('https')
+const parseString = require('xml2js').parseString;
+const hostname = require('os').hostname();
+
 
 
 // Contains methods for generating common query.

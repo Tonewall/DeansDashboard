@@ -1,14 +1,16 @@
-- Things to modify when deploying on another machine
-    - ports configuration
-        - to run client on port XX:
-            - for development: PORT=XX in [root]/.env file.
-            - for production: npx serve [path-to-build-folder] -l XX
-            - Modify "Access-Control-Allow_Origin" header for server. 
-                - [root]/server/index.js : res.header("Access-Control-Allow-Origin", "https://[IP-addr]:XX");)
-        - to run server on port XX:
-            - [root]/server/index.js : console.log("\n\n[Server] Starting server on port XX")
-            - [root]/server/index.js : app.listen(XX, '0.0.0.0');
-            - [root]/client/src/config.js : module.exports.server = 'http://localhost:XX'
+- When running in development mode
+  - Since cas authentication should redirect back to our website, please use public hostname instead of localhost. (even for browsing)
+    Hostname can be configured with the following node command
+      - require('os').hostname()
+  - Ports configuration
+    - To run client on port XX, modify followings
+      - client/.env --> PORT=XX
+      - server/index.js --> res.header("Access-Control-Allow-Origin", "https://[hostnamme]:XX"); (This is to enable cors)
+    - To run server on port YY, modify followings
+      - client/src/config.js --> module.exports.server = 'https://[server_hostname]:YY'
+      - server/index.js --> console.log("\n\n[Server] Starting server on port YY")
+      - server/index.js --> .listen(YY, '0.0.0.0')
+
 
 - Extras
     - Enable service worker for performance(but only on deployment)

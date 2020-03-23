@@ -1,6 +1,6 @@
 import React, { Component, Fragment }  from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import queryString from 'query-string'
 import DataView from './components/Data';
 import Home from './components/Home'
@@ -8,6 +8,7 @@ import FullReport from './components/FullReport'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-notifications/lib/notifications.css'
 import {NotificationContainer, NotificationManager} from 'react-notifications'
+import Cookies from 'js-cookie'
 
 import {server} from './config'
 
@@ -61,6 +62,7 @@ class App extends Component {
             var values = queryString.parse(window.location.search)
             if(values.ticket==undefined)
             {
+              Cookies.set('savedURL', window.location.href)
               // couldn't find ticket, redirect to cas login page
               window.location.href = 'https://login.gatech.edu/cas/login?service='+encodeURIComponent(appURL)
             }
@@ -86,7 +88,10 @@ class App extends Component {
                     if(data.success)
                     {
                       // ticket validation success, redirect to the original webpage
-                      window.location.href = appURL;
+                      if(Cookies.get('savedURL'))
+                        window.location.href = Cookies.get('savedURL');
+                      else
+                        window.location.href = appURL;
                     }
                     else
                     {
@@ -111,11 +116,11 @@ class App extends Component {
       <div className="mainBody">
         <NotificationContainer/>
         <Router>
-          <Fragment>
-            <Route exact path="/" component={()=><Home/>}/>
-            <Route exact path="/Data" component={DataView} />
-            <Route exact path="/full-report/:incidentNumber" component={FullReport} />
-          </Fragment>
+          <Switch>
+              <Route exact path="/Data" component={DataView} />
+              <Route exact path="/full-report/:incidentNumber" component={FullReport} />
+              <Route path="/" component={Home}/>
+          </Switch>
         </Router>
       </div>
       :
