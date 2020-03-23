@@ -1,1 +1,1 @@
-module.exports.server = 'https://localhost:5001'
+module.exports.server = 'https://localhost:6001'

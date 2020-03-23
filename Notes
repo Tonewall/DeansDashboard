@@ -1,13 +1,24 @@
-- When running in development mode
-  - Since cas authentication should redirect back to our website, please use public hostname instead of localhost. (even for browsing)
-    Hostname can be configured with the following node command
-      - require('os').hostname()
+- Since cas authentication should redirect back to our website, please use fully qualified domain name instead of localhost. (even for browsing)
+  Domain name can be configured with the following node command
+  - require('node-fqdn')()
+  - Browsers may automatically replace all capital letters with lowercase letters.
+    So it would be better to use lowercased domain name.
+    Or you can just add every possible domain names into REST serer cors header.
+    - e.g. gtpd-columbo.police.gatech.edu instead of GTPD-Columbo.police.gatech.edu
+
+- When running in "development mode"
+  - Copy certificate file to webpack-dev-server/ssl
+    - cp server.pem node_modules/webpack-dev-server/ssl/
+  - Since session is used for cas authentication, the server should run under https protocol.
+    But, unless the certificate is authorized one such as dashboard_police_gatech_edu_cert.cer,
+      Chrome will not allow any api calls.
+    In order to go around this issue, type chrome://flags/#allow-insecure-localhost in the address bar and make it 'enabled'
   - Ports configuration
     - To run client on port XX, modify followings
       - client/.env --> PORT=XX
-      - server/index.js --> res.header("Access-Control-Allow-Origin", "https://[hostnamme]:XX"); (This is to enable cors)
+      - server/index.js --> res.header("Access-Control-Allow-Origin", "https://[domain_name]:XX"); (This is to enable cors)
     - To run server on port YY, modify followings
-      - client/src/config.js --> module.exports.server = 'https://[server_hostname]:YY'
+      - client/src/config.js --> module.exports.server = 'https://[server_domain_name]:YY'
       - server/index.js --> console.log("\n\n[Server] Starting server on port YY")
       - server/index.js --> .listen(YY, '0.0.0.0')
 

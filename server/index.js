@@ -1,4 +1,4 @@
-console.log("\n\n[Server] Starting server on port 5001")
+console.log("\n\n[Server] Starting server on port 6001")
 
 const app = require('express')();
 const body_parser = require('body-parser');
@@ -25,7 +25,7 @@ app.use(body_parser.json());    // json encoded
 app.use(body_parser.urlencoded({extended: true}));  // url encoded
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://ipsec-172-16-85-48.vpn.gatech.edu:3001");
+    res.header("Access-Control-Allow-Origin", "https://gtpd-columbo.police.gatech.edu:4001");
     res.header("Access-Control-Allow-Credentials", 'true')  // Needed to enable cookie transfer
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -39,4 +39,4 @@ https.createServer({
   key: fs.readFileSync('./server.key'),
   cert: fs.readFileSync('./server.cert')
 }, app)
-.listen(5001, '0.0.0.0')
+.listen(6001, '0.0.0.0')
