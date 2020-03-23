@@ -5,9 +5,11 @@ const read = require('read')
 const { exec } = require('child_process')
 const https = require('https')
 const parseString = require('xml2js').parseString;
-const hostname = require('os').hostname();
+var fs = require('fs');
 
 
+// Make verified user list
+var authorized_users = fs.readFileSync('./AuthorizedUsers').toString().split("\n");
 
 // Contains methods for generating common query.
 const query_factory = require("./query_factory");
@@ -60,8 +62,17 @@ function add_router(app) {
       else
       {
         // user logged in. check authrization
-        // TODO: IMPLEMENT (right now, just gave authorization to everyone)
-        res.json({authorized: true, logged_in: true})
+        if(authorized_users.indexOf(sess.username)!=-1)
+        {
+          // one of authorized users
+          res.json({authorized: true, logged_in: true})
+        }
+        else
+        {
+          // one of authorized users
+          res.json({authorized: false, logged_in: true})
+        }
+        
       }
     })
 
@@ -90,7 +101,6 @@ function add_router(app) {
                   //Login Failed Try Again: May cause infinite browser redirect loop
                   res.json({success: false});
                 }
-                console.dir(JSON.stringify(result));
               }
               else
               {

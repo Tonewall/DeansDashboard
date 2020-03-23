@@ -6,6 +6,7 @@
     So it would be better to use lowercased domain name.
     Or you can just add every possible domain names into REST serer cors header.
     - e.g. gtpd-columbo.police.gatech.edu instead of GTPD-Columbo.police.gatech.edu
+- Authorized users list managed in AuthorizedUsers file
 
 - When running in "development mode"
   - Copy certificate file to webpack-dev-server/ssl
@@ -46,3 +47,9 @@
 
 - Extras
     - Enable service worker for performance(but only on deployment)
+
+- Concerns
+    - Chomre udpate will block Cookies with "sameSite'none' unsecure" session.
+    - Since our REST server is running under http behind nginx, secure session cannot be transferred.
+    - In order to run REST server under https without the aid of nginx, dashboard.key should be directly accessible.
+    - But this will incur security issue.
