@@ -1,6 +1,6 @@
-**User access contolled by AuthorizedUsers file**
-### Users will be authorized by AD group in the future.
-**Currently deployed on https://dashboard.police.gatech.edu**
+#**User access contolled by AuthorizedUsers file**
+(Users will be authorized by AD group in the future.)
+#**Currently deployed on https://dashboard.police.gatech.edu**
 
 - Be in GT network or connect to it via VPN.
 - Since cas authentication should redirect back to our website, please use fully qualified domain name instead of localhost. (even for browsing)
