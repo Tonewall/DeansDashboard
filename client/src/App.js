@@ -1,13 +1,13 @@
-import React, { Component, Fragment }  from 'react';
+import React, { Component }  from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import queryString from 'query-string'
 import DataView from './components/Data';
 import Home from './components/Home'
 import FullReport from './components/FullReport'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-notifications/lib/notifications.css'
-import {NotificationContainer, NotificationManager} from 'react-notifications'
+import {NotificationContainer} from 'react-notifications'
 import Cookies from 'js-cookie'
 
 import {server} from './config'
@@ -60,7 +60,7 @@ class App extends Component {
             console.log(appURL)
             // check if the url is holding SSO ticket
             var values = queryString.parse(window.location.search)
-            if(values.ticket==undefined)
+            if(values.ticket===undefined)
             {
               Cookies.set('savedURL', window.location.href)
               // couldn't find ticket, redirect to cas login page

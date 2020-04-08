@@ -1,4 +1,4 @@
-console.log("\n\n[Server] Starting server on port 6001")
+console.log("\n\n[Server] Starting server on port 6002")
 
 const app = require('express')();
 const body_parser = require('body-parser');
@@ -39,4 +39,4 @@ https.createServer({
   key: fs.readFileSync('./server.key'),
   cert: fs.readFileSync('./server.cert')
 }, app)
-.listen(6001, '0.0.0.0')
+.listen(5005, '0.0.0.0')

@@ -76,7 +76,7 @@ class Offender extends Component {
     getWanted() {
         if(this.state.offender && this.state.offender.length){
             var offenders = this.state.offender.map((offender, index) =>
-                <input className="row" type="checkbox" key={index} checked={offender.Wanted && offender.Wanted=='1'} disabled/>
+                <input className="row" type="checkbox" key={index} checked={offender.Wanted && offender.Wanted==='1'} disabled/>
             ) 
             return offenders
         } else {return(<input type="checkbox" checked={false} disabled/>)}
@@ -84,7 +84,7 @@ class Offender extends Component {
     getWarrant() {
         if(this.state.offender && this.state.offender.length){
             var offenders = this.state.offender.map((offender, index) =>
-                <input className="row" type="checkbox" key={index} checked={offender.Warrant && offender.Warrant=='1'} disabled/>
+                <input className="row" type="checkbox" key={index} checked={offender.Warrant && offender.Warrant==='1'} disabled/>
             ) 
             return offenders
         } else {return(<input type="checkbox" checked={false} disabled/>)}
@@ -92,7 +92,7 @@ class Offender extends Component {
     getArrest() {
         if(this.state.offender && this.state.offender.length){
             var offenders = this.state.offender.map((offender, index) =>
-                <input className="row" type="checkbox" key={index} checked={offender.Arrest && offender.Arrest=='1'} disabled/>
+                <input className="row" type="checkbox" key={index} checked={offender.Arrest && offender.Arrest==='1'} disabled/>
             ) 
             return offenders
         } else {return(<input type="checkbox" checked={false} disabled/>)}
@@ -100,7 +100,7 @@ class Offender extends Component {
     getArrestAtScene() {
         if(this.state.offender && this.state.offender.length){
             var offenders = this.state.offender.map((offender, index) =>
-                <input className="row" type="checkbox" key={index} checked={offender.ArrestScene && offender.ArrestScene=='1'} disabled/>
+                <input className="row" type="checkbox" key={index} checked={offender.ArrestScene && offender.ArrestScene==='1'} disabled/>
             ) 
             return offenders
         } else {return(<input className="row" type="checkbox" checked={false} disabled/>)}
