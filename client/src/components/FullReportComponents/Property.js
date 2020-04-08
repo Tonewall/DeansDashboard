@@ -61,7 +61,6 @@ class Property extends Component {
     }
 
     renderPropertyList() {
-      console.log(this.state.property);
       if(this.state.property && this.state.property.length){
           var properties = this.state.property.map((property, index) =>this.renderProperty(property, index)) 
           return properties
