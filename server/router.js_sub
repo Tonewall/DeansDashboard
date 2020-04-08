@@ -111,8 +111,59 @@ function add_router(app) {
 
     app.post('/validate_ticket', function(req, res) {
         var sess=req.session
-        serviceValidate = 'https://login.gatech.edu/cas/serviceValidate?service='+req.body.service+'&ticket='+req.body.ticket;
+        serviceValidate = 'https://login.gatech.edu/cas/samlValidate?service='+req.body.service+'&ticket='+req.body.ticket;
 
+
+	loginHost = 'login.gatech.edu'
+
+        reqBody = JSON.stringify({
+          service: req.body.service,
+          ticket: req.body.ticket
+        })
+
+        const options = {
+          hostname: loginHost,
+          path: '/cas/samlValidate',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': reqBody.length
+          }
+        }
+
+        var samlReq = https.request(options, function(validateResponse){
+          var body = '';
+          validateResponse.on('data', function(chunk) {
+            body += chunk;
+          });
+          validateResponse.on('end', function(){
+            //handling the response
+            console.log(body)
+            parseString(body, function (err, result) {
+              if(result !== undefined && result['cas:serviceResponse'] !== undefined)
+              {
+                if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
+                {
+                  var sucessResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
+                  sess.username = sucessResult[0]['cas:user'][0];
+                  res.json({success: true});
+                }
+                else
+                {
+                  //Login Failed Try Again: May cause infinite browser redirect loop
+                  res.json({success: true});
+                }
+              }
+              else
+              {
+                res.json({success: true});
+              }
+            });
+          });
+        });
+
+        samlReq.write(reqBody)
+/*
         https.get(serviceValidate, function(validateResponse){
           var body = '';
           validateResponse.on('data', function(chunk) {
@@ -121,6 +172,8 @@ function add_router(app) {
           validateResponse.on('end', function(){
             //handling the response
             parseString(body, function (err, result) {
+              console.dir(result)
+              console.log(result['cas:serviceResponse']['cas:authenticationSuccess'])
               if(result !== undefined && result['cas:serviceResponse'] !== undefined)
               {
                 if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
@@ -144,8 +197,7 @@ function add_router(app) {
         }).on('error', function(e) {
           res.send('HTTP Validation error');
         });
-
-
+	    */
     })
 /*
     app.post('/validate_ticket', function(req, res) {
