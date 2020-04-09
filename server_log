@@ -1,0 +1,377 @@
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+[34m [Server] Database configuration successful!
+
+[0m [Server] Now attaching router...
+
+[Server] Router successfully attached.
+
+ST-758579-AHF2tM7txc7ekGUB5XtJ-cas-prod6.gatech.edu
+{ 'cas:serviceResponse':
+   { '$': { 'xmlns:cas': 'http://www.yale.edu/tp/cas' },
+     'cas:authenticationSuccess': [ [Object] ] } }
+[ { 'cas:user': [ 'syun91' ] } ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
+authorized users:
+[ 'st87', 'dw191', 'syun91', 'gchoi38', '' ]
