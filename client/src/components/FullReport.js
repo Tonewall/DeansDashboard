@@ -33,8 +33,7 @@ class FullReport extends Component {
             })
             .then(results => {
                 results.json().then(data => {
-                    console.log(data)
-                    if(data.length==0)
+                    if(data.length===0)
                     {
                         this.setState({permission_check_running: false, permission_denied: true, report_class: 'unfound'});
                     }
