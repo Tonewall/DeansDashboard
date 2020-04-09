@@ -155,9 +155,11 @@ module.exports.getVictim = function(incident_number) {
         ,[Employer]\
         ,[Occupation]\
     FROM [SS_GARecords_Incident].[dbo].[ARPVictim]\
-    WHERE ([OCA]=\'%s\')\n\
+    WHERE [VictimSchool] like \'G%%Tech%%\'\
+    AND ([OCA]=\'%s\')\n\
     ', incident_number)
 }
+//    WHERE [VictimSchool] like \'G%Tech%\'\
 
 module.exports.getOffender = function(incident_number) {
     return sprintf('\
