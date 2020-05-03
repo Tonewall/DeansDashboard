@@ -12,7 +12,6 @@
     So it would be better to use lowercased domain name.
     Or you can just add every possible domain names into REST serer cors header.
     - e.g. gtpd-columbo.police.gatech.edu instead of GTPD-Columbo.police.gatech.edu
-- Authorized users list managed in AuthorizedUsers file
 
 - When running in "development mode"
   - Copy certificate file to webpack-dev-server/ssl
