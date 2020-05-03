@@ -56,7 +56,6 @@ class App extends Component {
             this.setState({verifying_user: false, logging_in: true, authorized: false})
 
             var appURL=window.location.protocol+'//'+window.location.host
-            console.log(appURL)
             // check if the url is holding SSO ticket
             var values = queryString.parse(window.location.search)
             if(values.ticket===undefined)
@@ -95,7 +94,10 @@ class App extends Component {
                     else
                     {
                       // ticket validation fail, redirect to SSO login page
-                      window.location.href = 'https://login.gatech.edu/cas/login?service='+encodeURIComponent(appURL)
+                      if(data.login_failed)
+                        window.location.href = 'https://login.gatech.edu/cas/login?service='+encodeURIComponent(appURL)
+                      else
+                        this.setState({verifying_user: false, logging_in: false, authorized: false})
                     }
                 })
               })
