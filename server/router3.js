@@ -7,12 +7,19 @@ const https = require('https')
 const parseString = require('xml2js').parseString;
 var fs = require('fs');
 
+var authorized_users;
 
-// Make verified user list
-var authorized_users = fs.readFileSync('./AuthorizedUsers').toString().split("\n");
-authorized_users = authorized_users.map((str)=>str.trim())
-console.log('authorized users:')
-console.log(authorized_users)
+update_authorized_users = ()=>
+{
+	// Make verified user list
+	authorized_users = fs.readFileSync('./AuthorizedUsers').toString().split("\n");
+	authorized_users = authorized_users.map((str)=>str.trim())
+	console.log('authorized users:')
+	console.log(authorized_users)
+}
+
+update_authorized_users()
+setInterval(update_authorized_users, 300000);	// Update authorized users list every 5mins
 
 // Contains methods for generating common query.
 const query_factory = require("./query_factory");
@@ -110,60 +117,10 @@ function add_router(app) {
 
 
     app.post('/validate_ticket', function(req, res) {
+	console.log(req.body.ticket)
         var sess=req.session
-        serviceValidate = 'https://login.gatech.edu/cas/samlValidate?service='+req.body.service+'&ticket='+req.body.ticket;
-
-
-	loginHost = 'login.gatech.edu'
-
-        reqBody = JSON.stringify({
-          service: req.body.service,
-          ticket: req.body.ticket
-        })
-
-        const options = {
-          hostname: loginHost,
-          path: '/cas/samlValidate',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': reqBody.length
-          }
-        }
-
-        var samlReq = https.request(options, function(validateResponse){
-          var body = '';
-          validateResponse.on('data', function(chunk) {
-            body += chunk;
-          });
-          validateResponse.on('end', function(){
-            //handling the response
-            console.log(body)
-            parseString(body, function (err, result) {
-              if(result !== undefined && result['cas:serviceResponse'] !== undefined)
-              {
-                if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
-                {
-                  var sucessResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
-                  sess.username = sucessResult[0]['cas:user'][0];
-                  res.json({success: true});
-                }
-                else
-                {
-                  //Login Failed Try Again: May cause infinite browser redirect loop
-                  res.json({success: true});
-                }
-              }
-              else
-              {
-                res.json({success: true});
-              }
-            });
-          });
-        });
-
-        samlReq.write(reqBody)
-/*
+        serviceValidate = 'https://aaa.login.gatech.edu/cas/serviceValidate?service='+req.body.service+'&ticket='+req.body.ticket;
+	console.log(serviceValidate)
         https.get(serviceValidate, function(validateResponse){
           var body = '';
           validateResponse.on('data', function(chunk) {
@@ -172,14 +129,14 @@ function add_router(app) {
           validateResponse.on('end', function(){
             //handling the response
             parseString(body, function (err, result) {
-              console.dir(result)
-              console.log(result['cas:serviceResponse']['cas:authenticationSuccess'])
+	      console.dir(result)
               if(result !== undefined && result['cas:serviceResponse'] !== undefined)
               {
                 if(result['cas:serviceResponse']['cas:authenticationSuccess'] !== undefined)
                 {
-                  var sucessResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
-                  sess.username = sucessResult[0]['cas:user'][0];
+                  var successResult = result['cas:serviceResponse']['cas:authenticationSuccess'];
+		  console.log(successResult)
+                  sess.username = successResult[0]['cas:user'][0];
                   res.json({success: true});
                 }
                 else
@@ -197,8 +154,16 @@ function add_router(app) {
         }).on('error', function(e) {
           res.send('HTTP Validation error');
         });
-	    */
+
+
     })
+
+
+
+
+
+
+
 /*
     app.post('/validate_ticket', function(req, res) {
         var sess=req.session
