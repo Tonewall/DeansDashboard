@@ -5,6 +5,7 @@ const read = require('read')
 const { exec } = require('child_process')
 const https = require('https')
 const parseString = require('xml2js').parseString;
+const dateTime = require('node-datetime')
 
 // Contains methods for generating common query.
 const query_factory = require("./query_factory");
@@ -56,6 +57,7 @@ function add_router(app) {
       var sess = req.session
       if (!sess.authorized) {
         // if it's db access but the user is not authorized, deny.
+        console.log('Illegal direct access to database. ip: '+req.ip)
         res.send('Not authorized.')
       }
       else {
@@ -114,8 +116,6 @@ function add_router(app) {
       validateResponse.on('end', function () {
         //handling the response
         parseString(body, function (err, result) {
-          if(err)
-            res.json({success: false, login_failed: true})
           try{
             logged_in_user = result['SOAP-ENV:Envelope']
                                     ['SOAP-ENV:Body'][0]
@@ -125,23 +125,24 @@ function add_router(app) {
                                     ['saml1:Subject'][0]
                                     ['saml1:NameIdentifier'][0]
             sess.username=logged_in_user
-            console.log('logged in user: %s'%sess.username)
-            if(result.indexOf('gtpd-dashboard')!=-1){
+            if(body.indexOf('gtpd-dashboard')!=-1){
               sess.authorized = true
               res.json({success: true})
+              console.log('Access attempt by ' + logged_in_user + ' at ' + dateTime.create().format('Y-m-d H:M:S')+': success')
             }
             else{
               sess.authorized = false
               res.json({success: false, login_failed: false})
+              console.log('Access attempt by ' + logged_in_user + ' at ' + dateTime.create().format('Y-m-d H:M:S')+': fail(not authorized)')
             }
           }
           catch(e){
             res.json({success: false, login_failed: true})
+            console.log('Access attempt by ' + logged_in_user + ' at ' + dateTime.create().format('Y-m-d H:M:S')+': fail(ticket validation error')
           }
         });
       });
     });
-
     samlReq.write(reqBody)
   })
 
@@ -174,6 +175,11 @@ function add_router(app) {
   });
 
   app.get('/check_permission/:incident_number', function (req, res) {
+    try {
+      console.log('Report#'+req.params.incident_number+' requested by '+req.session.username)}
+    catch(e){
+      console.log('Internal server error. chkpt0')
+    }
     query = query_factory.check_permission(req.params.incident_number)
     db_query(query, (err, result) => {
       if (!err) {
@@ -188,6 +194,11 @@ function add_router(app) {
   });
 
   app.get('/getIncidentData/:incident_number', function (req, res) {
+    try {
+      console.log('Report#'+req.params.incident_number+' served to '+req.session.username)}
+    catch(e){
+      console.log('Internal server error. chkpt1')
+    }
     query = query_factory.getIncidentData(req.params.incident_number)
     db_query(query, (err, result) => {
       if (!err) {
