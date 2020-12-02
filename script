@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo node server.index_deploy.js --deploy [gt-username] [password]
